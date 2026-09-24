@@ -16,6 +16,7 @@ jobs:
     with:
       repo-slug: "energia_italia"
       run-command: "make all"
+      extra-env: "BLOCKED_SOURCE_PROXY=${{ vars.BLOCKED_SOURCE_PROXY }}"
     permissions:
       contents: write
       pull-requests: write
