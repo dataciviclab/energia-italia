@@ -1,6 +1,6 @@
 # Energia Italia
 
-Come sta cambiando il sistema elettrico italiano — produzione, prezzi, emissioni, confronti EU. Dati aperti da Terna, GME, Eurostat, ISPRA, ISTAT.
+Come sta cambiando il sistema elettrico italiano — produzione, prezzi, emissioni, confronti EU. Dati aperti da Terna e GME.
 
 ## Perché questi dati
 
@@ -90,10 +90,10 @@ energia-italia/
 
 ## Partecipa
 
-- [Discussions](https://github.com/dataciviclab/energia-italia/discussions) — domande, idee, feedback
+- [Discussions](https://github.com/orgs/dataciviclab/discussions) — domande, idee, feedback
 - [Issues](https://github.com/dataciviclab/energia-italia/issues) — bug, dataset mancanti, miglioramenti
 - Contribuire: vedi `CONTRIBUTING.md`
 
 ## Licenza
 
-[![CC BY 4.0](https://img.shields.io/badge/Licenza-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![MIT License](https://img.shields.io/badge/Licenza-MIT-green.svg)](LICENSE)
