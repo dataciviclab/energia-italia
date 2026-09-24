@@ -4,6 +4,7 @@ Multi-dataset: Terna, GME, Eurostat, ISPRA.
 """
 
 from __future__ import annotations
+from pathlib import Path
 
 import streamlit as st
 
@@ -13,7 +14,9 @@ from lab_connectors.duckdb.queries import (
 )
 from lab_connectors.formatters import fmt_num, fmt_pct, fmt_eur
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
 PREFIX = "energia_italia/"
+LOCAL_ROOT = str(REPO_ROOT / "out" / "data")
 YEARS = list(range(2015, 2027))
 
 
@@ -26,7 +29,8 @@ def _q(slug: str, sql: str, year: int = 2026):
 def load_copertura(year: int = 2024):
     """Copertura domanda per fonte (nazionale)."""
     return _load_mart_table(
-        "terna_copertura_domanda", "mart_copertura_fonte_nazionale", year, prefix=PREFIX
+        "terna_copertura_domanda", "mart_copertura_fonte_nazionale", year,
+        prefix=PREFIX, local_root=LOCAL_ROOT,
     )
 
 
@@ -34,7 +38,8 @@ def load_copertura(year: int = 2024):
 def load_copertura_regione(year: int = 2024):
     """Copertura domanda per fonte e regione."""
     return _load_mart_table(
-        "terna_copertura_domanda", "mart_copertura_fonte_regione", year, prefix=PREFIX
+        "terna_copertura_domanda", "mart_copertura_fonte_regione", year,
+        prefix=PREFIX, local_root=LOCAL_ROOT,
     )
 
 
@@ -42,7 +47,8 @@ def load_copertura_regione(year: int = 2024):
 def load_mix_regioni(year: int = 2024):
     """Mix rinnovabili per regione."""
     return _load_mart_table(
-        "terna_elettricita_per_fonte", "mart_mix_regioni", year, prefix=PREFIX
+        "terna_elettricita_per_fonte", "mart_mix_regioni", year,
+        prefix=PREFIX, local_root=LOCAL_ROOT,
     )
 
 
@@ -50,7 +56,8 @@ def load_mix_regioni(year: int = 2024):
 def load_pun_mensile():
     """PUN/PSV mensili (tutti gli anni)."""
     return _load_mart_table(
-        "gme_pun_storico", "mart_pun_mensile", 2026, prefix=PREFIX
+        "gme_pun_storico", "mart_pun_mensile", 2026,
+        prefix=PREFIX, local_root=LOCAL_ROOT,
     )
 
 
@@ -58,7 +65,8 @@ def load_pun_mensile():
 def load_pun_annuale():
     """PUN/PSV annuali."""
     return _load_mart_table(
-        "gme_pun_storico", "mart_pun_annuale", 2026, prefix=PREFIX
+        "gme_pun_storico", "mart_pun_annuale", 2026,
+        prefix=PREFIX, local_root=LOCAL_ROOT,
     )
 
 
@@ -66,7 +74,8 @@ def load_pun_annuale():
 def load_emissioni_combustibile(year: int = 2024):
     """Emissioni CO2 per combustibile."""
     return _load_mart_table(
-        "terna_emissioni_co2", "mart_emissioni_combustibile", year, prefix=PREFIX
+        "terna_emissioni_co2", "mart_emissioni_combustibile", year,
+        prefix=PREFIX, local_root=LOCAL_ROOT,
     )
 
 
@@ -74,7 +83,8 @@ def load_emissioni_combustibile(year: int = 2024):
 def load_emissioni_regione(year: int = 2024):
     """Emissioni CO2 per regione."""
     return _load_mart_table(
-        "terna_emissioni_co2", "mart_emissioni_regione", year, prefix=PREFIX
+        "terna_emissioni_co2", "mart_emissioni_regione", year,
+        prefix=PREFIX, local_root=LOCAL_ROOT,
     )
 
 
@@ -82,7 +92,8 @@ def load_emissioni_regione(year: int = 2024):
 def load_confronto_ue(year: int = 2023):
     """Confronto Italia vs paesi EU."""
     return _load_mart_table(
-        "terna_bilancio_elettrico", "mart_confronto_ue", year, prefix=PREFIX
+        "terna_bilancio_elettrico", "mart_confronto_ue", year,
+        prefix=PREFIX, local_root=LOCAL_ROOT,
     )
 
 
@@ -90,7 +101,8 @@ def load_confronto_ue(year: int = 2023):
 def load_capacita(year: int = 2024):
     """Capacita rinnovabile per regione/fonte."""
     return _load_mart_table(
-        "terna_capacita_rinnovabile", "mart_regioni_fonti_nette", year, prefix=PREFIX
+        "terna_capacita_rinnovabile", "mart_regioni_fonti_nette", year,
+        prefix=PREFIX, local_root=LOCAL_ROOT,
     )
 
 
