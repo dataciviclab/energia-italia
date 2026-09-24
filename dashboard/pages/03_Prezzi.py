@@ -13,10 +13,11 @@ st.subheader("PUN mensile (2020-2026)")
 try:
     df = load_pun_mensile()
     if not df.empty:
+        x_labels = [f"{int(r.anno)}-{int(r.mese):02d}" for _, r in df.iterrows()]
         fig = make_subplots(specs=[[{"secondary_y": True}]])
         fig.add_trace(
             go.Scatter(
-                x=list(range(len(df))),
+                x=x_labels,
                 y=df["pun_eur_kwh"],
                 mode="lines+markers",
                 name="PUN (EUR/kWh)",
@@ -26,7 +27,7 @@ try:
         )
         fig.add_trace(
             go.Scatter(
-                x=list(range(len(df))),
+                x=x_labels,
                 y=df["psv_eur_smc"],
                 mode="lines+markers",
                 name="PSV (EUR/Smc)",
@@ -38,7 +39,8 @@ try:
             height=350,
             margin={"t": 20, "b": 40},
             xaxis_title="Mese",
-            legend=dict(orientation="h", y=-0.2),
+            xaxis=dict(tickangle=-45),
+            legend=dict(orientation="h", y=-0.25),
         )
         fig.update_yaxes(title_text="EUR/kWh", secondary_y=False)
         fig.update_yaxes(title_text="EUR/Smc", secondary_y=True)
