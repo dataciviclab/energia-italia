@@ -1,4 +1,6 @@
+# Pin export per Streamlit Cloud (replica extra dashboard da pyproject.toml)
 streamlit>=1.61
 plotly>=5.18
-pandas>=2.0
+pandas>=3.0
+duckdb>=1.5.3
 lab-connectors[duckdb] @ git+https://github.com/dataciviclab/lab-connectors.git
