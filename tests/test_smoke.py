@@ -5,10 +5,8 @@ Verifica:
 - Esistenza e integrita' dei mart parquet
 - Contratti colonne (required_columns)
 - Min rows per mart
-- Summary reconcile
 """
 
-import json
 from pathlib import Path
 
 import duckdb
@@ -16,65 +14,61 @@ import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 MART_DIR = ROOT / "out" / "data" / "mart"
-CLEAN_DIR = ROOT / "out" / "data" / "clean"
-RECONCILE_DIR = ROOT / "data" / "reconcile"
 
 
 # ── Contratti mart (per dataset) ────────────────────────────────────────────
 
 MART_CONTRACTS = {
-    "eurostat_emissioni_ghg": {
-        "mart_emissioni_italia_gas": {
-            "min_rows": 100,
-            "required_columns": ["year", "gas", "emissioni_t"],
-        },
-        "mart_emissioni_italia_settori": {
-            "min_rows": 1000,
-            "required_columns": ["year", "settore", "gas", "emissioni_t"],
-        },
-        "mart_confronto_eu": {
-            "min_rows": 15,
-            "required_columns": ["year", "gas", "emissioni_it", "emissioni_eu27", "quota_it_pct"],
-        },
-    },
-    "eurostat_rinnovabili": {
-        "mart_rinnovabili_italia": {
-            "min_rows": 15,
-            "required_columns": ["year", "rinnovabili_pct", "target_2030", "gap_target_pct"],
-        },
-        "mart_ranking_eu": {
-            "min_rows": 20,
-            "required_columns": ["year", "geo", "rinnovabili_pct", "rank"],
-        },
-    },
-    "ispra_emissioni_ghg": {
-        "mart_settori_anno": {
-            "min_rows": 100,
-            "required_columns": ["anno", "settore", "emissioni_mt", "quota_pct"],
-        },
-        "mart_trend_settori": {
+    "terna_copertura_domanda": {
+        "mart_copertura_fonte_nazionale": {
             "min_rows": 5,
-            "required_columns": ["settore", "emissioni_1990", "emissioni_ultimo", "delta_pct", "cagr_annuale"],
+            "required_columns": ["anno", "fonte", "copertura_gwh", "quota_pct"],
+        },
+        "mart_copertura_fonte_regione": {
+            "min_rows": 50,
+            "required_columns": ["anno", "regione", "fonte", "copertura_gwh"],
         },
     },
-    "istat_subsidi_ambientali": {
-        "mart_sussidi_per_cea": {
-            "min_rows": 100,
-            "required_columns": ["year", "dominio", "sussidi_mln_eur"],
-        },
-        "mart_trend_sussidi": {
-            "min_rows": 5,
-            "required_columns": ["dominio", "sussidi_primo", "anno_primo", "sussidi_ultimo", "anno_ultimo", "delta_pct"],
+    "terna_elettricita_per_fonte": {
+        "mart_mix_regioni": {
+            "min_rows": 10,
+            "required_columns": ["anno", "regione", "quota_rinnovabili_pct"],
         },
     },
-    "istat_investimenti_mitigazione": {
-        "mart_investimenti_per_cea": {
-            "min_rows": 100,
-            "required_columns": ["year", "cep_class", "investimenti_mln_eur"],
+    "terna_emissioni_co2": {
+        "mart_emissioni_combustibile": {
+            "min_rows": 3,
+            "required_columns": ["anno", "combustibile", "emissioni_mt"],
         },
-        "mart_trend_investimenti": {
+        "mart_emissioni_regione": {
+            "min_rows": 10,
+            "required_columns": ["anno", "regione", "emissioni_mt"],
+        },
+    },
+    "terna_bilancio_elettrico": {
+        "mart_bilancio_italia": {
+            "min_rows": 1,
+            "required_columns": ["anno", "produzione_neta_twh", "richiesta_twh"],
+        },
+        "mart_confronto_ue": {
             "min_rows": 5,
-            "required_columns": ["cep_class", "investimenti_primo", "anno_primo", "investimenti_ultimo", "anno_ultimo", "delta_pct"],
+            "required_columns": ["anno", "nazione", "produzione_neta_twh"],
+        },
+    },
+    "gme_pun_storico": {
+        "mart_pun_mensile": {
+            "min_rows": 50,
+            "required_columns": ["anno", "mese", "pun_eur_kwh"],
+        },
+        "mart_pun_annuale": {
+            "min_rows": 5,
+            "required_columns": ["anno", "pun_medio_kwh"],
+        },
+    },
+    "terna_capacita_rinnovabile": {
+        "mart_regioni_fonti_nette": {
+            "min_rows": 100,
+            "required_columns": ["anno", "regione", "fonti", "potenza_totale_mw"],
         },
     },
 }
@@ -105,35 +99,8 @@ class TestMartContracts:
         for f in files:
             df = con.execute(f"SELECT * FROM read_parquet('{f}')").fetchdf()
             all_rows += len(df)
-            # Check required columns
             for col in contract["required_columns"]:
                 assert col in df.columns, f"Missing column {col} in {f.name}"
 
         assert all_rows >= contract["min_rows"], \
             f"{dataset}/{mart_name}: {all_rows} rows < {contract['min_rows']}"
-
-
-@pytest.mark.smoke
-class TestReconcile:
-    """Verifica output reconcile."""
-
-    def test_summary_exists(self):
-        summary_path = RECONCILE_DIR / "summary.json"
-        if not summary_path.exists():
-            pytest.skip("Reconcile not run yet")
-        with open(summary_path) as f:
-            data = json.load(f)
-        assert data["total"] >= 2
-        assert "ok" in data
-        assert "anomalies" in data
-
-    @pytest.mark.parametrize("case_file", [
-        "c1_capacity_factor.csv",
-        "c2_pun_gme_annuale.csv",
-    ])
-    def test_case_csv_exists(self, case_file: str):
-        path = RECONCILE_DIR / case_file
-        if not path.exists():
-            pytest.skip(f"Reconcile case {case_file} not run yet")
-        assert path.stat().st_size > 0
-

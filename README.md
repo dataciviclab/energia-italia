@@ -67,22 +67,12 @@ make reconcile        # cross-check tra fonti
 - **Confronti EU** — intensità carbone Italia vs Europa
 - **Query SQL** — interrogazione libera
 
-## Reconcile
-
-Cross-check automatico tra fonti indipendenti:
-
-| Caso | Fonti | Cosa verifica |
-|------|-------|---------------|
-| Capacity factor | Terna capacity vs produzione | Coerenza MW installati / GWh prodotti |
-| PUN annuale | GME Portale Offerte | Profilo prezzi 2020-2026 |
-
 ## Struttura
 
 ```
 energia-italia/
 ├── datasets/           # Config e SQL per ogni dataset
 ├── dashboard/          # Streamlit dashboard
-├── scripts/            # reconcile.py
 ├── tests/              # Test
 ├── registry/           # Registry dataset
 └── out/                # Output pipeline (raw, clean, mart)

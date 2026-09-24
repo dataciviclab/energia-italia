@@ -26,16 +26,10 @@ check:
 	done
 	@echo "✅ All configs valid"
 
-# --- Script analitici -------------------------------------------------------
-
-.PHONY: reconcile
-reconcile:
-	python3 scripts/reconcile.py
-
-# --- Pipeline completa: toolkit + reconcile + test ---------------------------
+# --- Pipeline completa: toolkit + test ----------------------------------------
 
 .PHONY: all
-all: run-all reconcile test
+all: run-all test
 
 # --- Test --------------------------------------------------------------------
 
