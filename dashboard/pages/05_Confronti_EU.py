@@ -14,14 +14,14 @@ st.subheader("Intensita carbone (g CO2/kWh)")
 try:
     df = load_confronto_ue(anno)
     if not df.empty and "nazione" in df.columns:
-        df_sorted = df.sort_values("emissioni_co2_totali_gr_kwh")
+        df_sorted = df.sort_values("intensita_carbone")
         colors = ["#059669" if n == "Italy" else "#6366f1" for n in df_sorted["nazione"]]
         fig = go.Figure(go.Bar(
-            x=df_sorted["emissioni_co2_totali_gr_kwh"],
+            x=df_sorted["intensita_carbone"],
             y=df_sorted["nazione"],
             orientation="h",
             marker_color=colors,
-            text=df_sorted["emissioni_co2_totali_gr_kwh"].apply(lambda x: f"{x:.0f}"),
+            text=df_sorted["intensita_carbone"].apply(lambda x: f"{x:.0f}"),
             textposition="outside",
         ))
         fig.update_layout(

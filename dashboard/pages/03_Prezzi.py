@@ -17,7 +17,7 @@ try:
         fig.add_trace(
             go.Scatter(
                 x=list(range(len(df))),
-                y=df["pun_medio_kwh"],
+                y=df["pun_eur_kwh"],
                 mode="lines+markers",
                 name="PUN (EUR/kWh)",
                 line=dict(color="#6366f1", width=2),
@@ -27,7 +27,7 @@ try:
         fig.add_trace(
             go.Scatter(
                 x=list(range(len(df))),
-                y=df["psv_medio_smc"],
+                y=df["psv_eur_smc"],
                 mode="lines+markers",
                 name="PSV (EUR/Smc)",
                 line=dict(color="#f59e0b", width=2),
