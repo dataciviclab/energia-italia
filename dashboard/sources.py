@@ -11,7 +11,12 @@ from lab_connectors.duckdb.queries import (
     load_mart_table as _load_mart_table,
     query_clean as _query_clean,
 )
-from lab_connectors.formatters import fmt_num, fmt_pct, fmt_eur
+from lab_connectors.formatters import fmt_num, fmt_pct as _fmt_pct, fmt_eur
+
+
+def fmt_pct(n: float) -> str:
+    """Formatta percentuale senza + iniziale (per quote assolute)."""
+    return _fmt_pct(n).lstrip("+")
 
 PREFIX = "energia_italia/"
 YEARS = list(range(2015, 2027))
