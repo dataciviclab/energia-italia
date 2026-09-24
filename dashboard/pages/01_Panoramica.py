@@ -34,9 +34,9 @@ k1, k2, k3, k4 = st.columns(4)
 with k1:
     st.metric("Capacita rinnovabile", f"{cap_rinn:,.0f} MW")
 with k2:
-    st.metric("Quota rinnovabili", fmt_pct(rinn_pct / 100))
+    st.metric("Quota rinnovabili", fmt_pct(rinn_pct / 100, signed=False))
 with k3:
-    st.metric("Termoelettrico", fmt_pct(termo_pct / 100))
+    st.metric("Termoelettrico", fmt_pct(termo_pct / 100, signed=False))
 with k4:
     pun_row = df_pun[df_pun["anno"] == year] if not df_pun.empty else None
     if pun_row is not None and not pun_row.empty:
