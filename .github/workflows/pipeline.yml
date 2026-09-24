@@ -1,0 +1,23 @@
+name: Pipeline
+
+on:
+  pull_request:
+    types: [closed]
+    paths:
+      - "datasets/**"
+  schedule:
+    - cron: "0 6 1 * *"
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    if: github.event.pull_request.merged == true || github.event_name != 'pull_request'
+    uses: dataciviclab/.github/.github/workflows/pipeline-reusable.yml@main
+    with:
+      repo-slug: "energia_italia"
+      run-command: "make all"
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    secrets: inherit

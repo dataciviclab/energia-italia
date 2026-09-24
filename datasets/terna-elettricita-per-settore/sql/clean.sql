@@ -1,8 +1,6 @@
--- clean.sql - terna_electrical_energy_by_sector
--- Input: workbook XLSX (gia' pulito dal footer "Applied filters" da scripts/fetch_terna.py)
+-- clean.sql - terna_elettricita_per_settore
+-- Input: XLSX da Terna Download Center (ElectricalEnergy)
 -- Colonne: Anno, Regione, Provincia, Settore, Consumo (GWh)
--- Obiettivo: normalizzare colonne e tipi, aggregare per provincia/settore
--- (2015-2020 hanno dati disaggregati, 2021-2024 gia' aggregati)
 
 SELECT
     CAST("Anno" AS INTEGER) AS anno,

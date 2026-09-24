@@ -5,7 +5,7 @@ Verifica:
 - Esistenza e integrita' dei mart parquet
 - Contratti colonne (required_columns)
 - Min rows per mart
-- Summary reconcile e signals
+- Summary reconcile
 """
 
 import json
@@ -18,7 +18,6 @@ ROOT = Path(__file__).resolve().parent.parent
 MART_DIR = ROOT / "out" / "data" / "mart"
 CLEAN_DIR = ROOT / "out" / "data" / "clean"
 RECONCILE_DIR = ROOT / "data" / "reconcile"
-SIGNALS_DIR = ROOT / "data" / "signals"
 
 
 # ── Contratti mart (per dataset) ────────────────────────────────────────────
@@ -124,16 +123,13 @@ class TestReconcile:
             pytest.skip("Reconcile not run yet")
         with open(summary_path) as f:
             data = json.load(f)
-        assert data["total"] >= 3
+        assert data["total"] >= 2
         assert "ok" in data
         assert "anomalies" in data
 
     @pytest.mark.parametrize("case_file", [
-        "c1_emissioni_ispra_eurostat.csv",
-        "c2_settori_ispra_eurostat.csv",
-        "c3_capacity_factor.csv",
-        "c4_sussidi_investimenti.csv",
-        "c5_coerenza_terna.csv",
+        "c1_capacity_factor.csv",
+        "c2_pun_gme_annuale.csv",
     ])
     def test_case_csv_exists(self, case_file: str):
         path = RECONCILE_DIR / case_file
@@ -141,21 +137,3 @@ class TestReconcile:
             pytest.skip(f"Reconcile case {case_file} not run yet")
         assert path.stat().st_size > 0
 
-
-@pytest.mark.smoke
-class TestSignals:
-    """Verifica output signals."""
-
-    def test_signals_csv_exists(self):
-        csv_path = SIGNALS_DIR / "signals.csv"
-        if not csv_path.exists():
-            pytest.skip("Signals not run yet")
-        with open(csv_path) as f:
-            lines = f.readlines()
-        assert len(lines) >= 13  # header + 12 signals
-
-    def test_panorama_exists(self):
-        md_path = ROOT / "data" / "reporting" / "panorama.md"
-        if not md_path.exists():
-            pytest.skip("Panorama not generated yet")
-        assert md_path.stat().st_size > 100

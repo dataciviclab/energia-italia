@@ -821,6 +821,68 @@
       ]
     },
     {
+      "slug": "terna_elettricita_per_settore",
+      "name": "Terna Elettricita Per Settore",
+      "description": "",
+      "source": "",
+      "source_id": "terna_opendata",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "energia",
+        "elettricità",
+        "consumi",
+        "settore"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "provincia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "province_code"
+        },
+        {
+          "name": "settore",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "consumo_gwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/terna_elettricita_per_settore/*/terna_elettricita_per_settore_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "terna_elettricita_per_settore__mart_consumi_settore_provincia"
+      ]
+    },
+    {
       "slug": "terna_emissioni_co2",
       "name": "Terna Emissioni Co2",
       "description": "",
@@ -1005,7 +1067,7 @@
       "detail": "anno 2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260923T225912Z_be116c92",
+        "run_id": "20260924T152228Z_6812e0d5",
         "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
@@ -1023,9 +1085,9 @@
           "clean": 4428,
           "mart": 5494
         },
-        "started_at": "2026-09-23T22:59:12.592198+00:00",
-        "finished_at": "2026-09-23T22:59:12.387456+00:00",
-        "duration_seconds": -0.205
+        "started_at": "2026-09-24T15:22:28.879248+00:00",
+        "finished_at": "2026-09-24T15:22:30.933284+00:00",
+        "duration_seconds": 2.054
       }
     },
     {
@@ -1066,21 +1128,26 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260904T141918Z_c22a7419",
+        "run_id": "20260924T152259Z_7a9791d2",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
+          "raw": 100,
+          "clean": 100,
           "mart": 80
         },
         "output_rows": {
+          "clean": 1070,
           "mart": 100
         },
         "output_bytes": {
+          "raw": 33173,
+          "clean": 7557,
           "mart": 2981
         },
-        "started_at": "2026-09-04T14:19:18.841128+00:00",
-        "finished_at": "2026-09-04T14:19:19.037522+00:00",
-        "duration_seconds": 0.196
+        "started_at": "2026-09-24T15:22:59.585883+00:00",
+        "finished_at": "2026-09-24T15:23:01.251067+00:00",
+        "duration_seconds": 1.665
       }
     },
     {
@@ -1091,7 +1158,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260924T113628Z_0cd5658d",
+        "run_id": "20260924T152320Z_ef193885",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1106,11 +1173,11 @@
         "output_bytes": {
           "raw": 7111,
           "clean": 2553,
-          "mart": 3165
+          "mart": 3163
         },
-        "started_at": "2026-09-24T11:36:28.463962+00:00",
-        "finished_at": "2026-09-24T11:36:29.740498+00:00",
-        "duration_seconds": 1.277
+        "started_at": "2026-09-24T15:23:20.512187+00:00",
+        "finished_at": "2026-09-24T15:23:21.670171+00:00",
+        "duration_seconds": 1.158
       }
     },
     {
@@ -1121,21 +1188,26 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260904T141917Z_f28e9729",
+        "run_id": "20260924T152341Z_633c2905",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
+          "raw": 100,
+          "clean": 100,
           "mart": 100
         },
         "output_rows": {
+          "clean": 900,
           "mart": 20
         },
         "output_bytes": {
+          "raw": 28510,
+          "clean": 6567,
           "mart": 2008
         },
-        "started_at": "2026-09-04T14:19:17.824592+00:00",
-        "finished_at": "2026-09-04T14:19:18.021720+00:00",
-        "duration_seconds": 0.197
+        "started_at": "2026-09-24T15:23:41.917970+00:00",
+        "finished_at": "2026-09-24T15:23:43.538096+00:00",
+        "duration_seconds": 1.62
       }
     },
     {
@@ -1146,21 +1218,26 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260904T141804Z_9fc4d59c",
+        "run_id": "20260924T152402Z_b3413dcc",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
-          "mart": 100
+          "raw": 100,
+          "clean": 100,
+          "mart": 60
         },
         "output_rows": {
-          "mart": 428
+          "clean": 100,
+          "mart": 100
         },
         "output_bytes": {
-          "mart": 4430
+          "raw": 5569,
+          "clean": 2125,
+          "mart": 2139
         },
-        "started_at": "2026-09-04T14:18:04.996093+00:00",
-        "finished_at": "2026-09-04T14:18:05.151818+00:00",
-        "duration_seconds": 0.156
+        "started_at": "2026-09-24T15:24:02.365581+00:00",
+        "finished_at": "2026-09-24T15:24:03.638561+00:00",
+        "duration_seconds": 1.273
       }
     },
     {
@@ -1171,7 +1248,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260924T113659Z_2631c124",
+        "run_id": "20260924T152418Z_a72de985",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1188,9 +1265,9 @@
           "clean": 2417,
           "mart": 2465
         },
-        "started_at": "2026-09-24T11:36:59.865349+00:00",
-        "finished_at": "2026-09-24T11:37:01.325405+00:00",
-        "duration_seconds": 1.46
+        "started_at": "2026-09-24T15:24:18.940252+00:00",
+        "finished_at": "2026-09-24T15:24:20.088624+00:00",
+        "duration_seconds": 1.148
       }
     }
   ],
@@ -1227,10 +1304,16 @@
             "name": "Terna Elettricita Per Fonte",
             "column": "provincia",
             "semantic_type": "province_code"
+          },
+          {
+            "slug": "terna_elettricita_per_settore",
+            "name": "Terna Elettricita Per Settore",
+            "column": "provincia",
+            "semantic_type": "province_code"
           }
         ],
         "types": {
-          "province_code": 2
+          "province_code": 3
         }
       },
       "Provincia (tramite NUTS3)": {
@@ -1283,6 +1366,12 @@
             "semantic_type": "region_code"
           },
           {
+            "slug": "terna_elettricita_per_settore",
+            "name": "Terna Elettricita Per Settore",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
             "slug": "terna_emissioni_co2",
             "name": "Terna Emissioni Co2",
             "column": "regione",
@@ -1290,7 +1379,7 @@
           }
         ],
         "types": {
-          "region_code": 5
+          "region_code": 6
         }
       },
       "Tempo": {
@@ -1370,6 +1459,12 @@
             "semantic_type": "year"
           },
           {
+            "slug": "terna_elettricita_per_settore",
+            "name": "Terna Elettricita Per Settore",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
             "slug": "terna_emissioni_co2",
             "name": "Terna Emissioni Co2",
             "column": "anno",
@@ -1377,7 +1472,7 @@
           }
         ],
         "types": {
-          "year": 12,
+          "year": 13,
           "month": 1
         }
       }
