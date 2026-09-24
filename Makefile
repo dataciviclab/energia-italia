@@ -1,4 +1,4 @@
-# Climate Intelligence — Makefile
+# Energia Italia — Makefile
 # Pipeline toolkit (dataset.yml) + script analitici.
 TOOLKIT = toolkit
 
@@ -28,17 +28,14 @@ check:
 
 # --- Script analitici -------------------------------------------------------
 
-.PHONY: reconcile signals
+.PHONY: reconcile
 reconcile:
 	python3 scripts/reconcile.py
 
-signals:
-	python3 scripts/signals.py
-
-# --- Pipeline completa: toolkit + analitici + test ----------------------------
+# --- Pipeline completa: toolkit + reconcile + test ---------------------------
 
 .PHONY: all
-all: run-all reconcile signals test
+all: run-all reconcile test
 
 # --- Test --------------------------------------------------------------------
 
