@@ -1,0 +1,57 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "terna_copertura_domanda"
+  source_id: "terna_opendata"
+  tags: [energia, elettricità, consumo, fonti-rinnovabili, regioni]
+  category: energia
+  years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  time_coverage:
+    start_year: 2015
+    end_year: 2024
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "terna_consumption_by_source_xlsx"
+      type: "http_file"
+      args:
+        url: "https://dati.terna.it/api/sitecore/dati/downloadcenter/records?f=xlsx&filterDataset=ConsumptionBySource&filterYear={year}&filterMonth=12&orderByColumn=Anno&orderByDir=desc&db=dati&pageSize=500"
+        filename: "terna_consumption_by_source_{year}_12.xlsx"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: auto
+    mode: latest
+    header: true
+    sheet_name: "Export"
+  required_columns: [anno, regione, fonte, copertura_gwh]
+  validate:
+    min_rows: 50
+    not_null: [anno, fonte]
+
+mart:
+  tables:
+    - name: "mart_copertura_fonte_nazionale"
+      sql: "sql/mart_copertura_fonte_nazionale.sql"
+    - name: "mart_copertura_fonte_regione"
+      sql: "sql/mart_copertura_fonte_regione.sql"
+  required_tables:
+    - "mart_copertura_fonte_nazionale"
+    - "mart_copertura_fonte_regione"
+  validate:
+    table_rules:
+      mart_copertura_fonte_nazionale:
+        required_columns: [anno, fonte, copertura_gwh, quota_pct]
+        primary_key: [anno, fonte]
+        min_rows: 5
+      mart_copertura_fonte_regione:
+        required_columns: [anno, regione, fonte, copertura_gwh]
+        primary_key: [anno, regione, fonte]
+        min_rows: 100
+
+validation:
+  fail_on_error: false

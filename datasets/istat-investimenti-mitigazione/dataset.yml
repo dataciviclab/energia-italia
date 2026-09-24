@@ -1,0 +1,57 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "istat_investimenti_mitigazione"
+  source_id: "istat_sdmx"
+  tags: [ambiente, investimenti, mitigazione, clima, istat, egss]
+  category: ambiente
+  years: [2026]
+  time_coverage:
+    start_year: 2016
+    end_year: 2023
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "istat_71_1028"
+      type: "http_file"
+      args:
+        url: "https://esploradati.istat.it/SDMXWS/rest/data/71_1028/ALL/?format=csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: auto
+    mode: latest
+    delim: ","
+    encoding: utf-8
+    header: true
+  required_columns: [freq, ref_area, data_type, nace_r2, cep_class, year, obs_value, unit]
+  validate:
+    min_rows: 100
+    not_null: [year, cep_class]
+
+mart:
+  tables:
+    - name: "mart_investimenti_per_cea"
+      sql: "sql/mart_investimenti_per_cea.sql"
+    - name: "mart_trend_investimenti"
+      sql: "sql/mart_trend_investimenti.sql"
+  required_tables:
+    - "mart_investimenti_per_cea"
+    - "mart_trend_investimenti"
+  validate:
+    table_rules:
+      mart_investimenti_per_cea:
+        required_columns: [year, cep_class, investimenti_mln_eur]
+        primary_key: [year, cep_class]
+        min_rows: 100
+      mart_trend_investimenti:
+        required_columns: [cep_class, anno_primo, primo_val, anno_ultimo, ultimo_val, delta_pct]
+        primary_key: [cep_class]
+        min_rows: 5
+
+validation:
+  fail_on_error: false

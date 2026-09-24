@@ -1,0 +1,59 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "gme_pun_storico"
+  source_id: "gme"
+  tags: [energia, elettricità, prezzi, pun, psv, mercato]
+  category: energia
+  years: [2026]
+  time_coverage:
+    start_year: 2020
+    end_year: 2026
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "gme_pun_storico_csv"
+      type: "http_file"
+      args:
+        url: "https://www.ilportaleofferte.it/portaleOfferte/resources/cms/documents/5d6f1085b4d5f20821af55764e647671.csv"
+        filename: "gme_pun_storico.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: auto
+    mode: latest
+    delim: ";"
+    encoding: cp1252
+    header: true
+    decimal: ","
+  required_columns: [anno_mese, pun_eur_kwh, psv_eur_smc]
+  validate:
+    min_rows: 50
+    not_null: [anno_mese, pun_eur_kwh]
+
+mart:
+  tables:
+    - name: "mart_pun_mensile"
+      sql: "sql/mart_pun_mensile.sql"
+    - name: "mart_pun_annuale"
+      sql: "sql/mart_pun_annuale.sql"
+  required_tables:
+    - "mart_pun_mensile"
+    - "mart_pun_annuale"
+  validate:
+    table_rules:
+      mart_pun_mensile:
+        required_columns: [anno, mese, pun_eur_kwh, psv_eur_smc, yoy_pct, ma3]
+        primary_key: [anno, mese]
+        min_rows: 50
+      mart_pun_annuale:
+        required_columns: [anno, pun_medio_kwh, psv_medio_smc, pun_min_kwh, pun_max_kwh]
+        primary_key: [anno]
+        min_rows: 5
+
+validation:
+  fail_on_error: false

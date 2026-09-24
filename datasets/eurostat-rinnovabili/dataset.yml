@@ -1,0 +1,87 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "eurostat_rinnovabili"
+  source_id: "eurostat"
+  tags: [ambiente, energia, rinnovabili, eurostat, clima, target]
+  category: ambiente
+  years: [2026]
+  time_coverage:
+    start_year: 2004
+    end_year: 2025
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "eurostat_nrg_ind_ren"
+      type: "sdmx"
+      args:
+        agency: "ESTAT"
+        flow: "NRG_IND_REN"
+      primary: true
+
+support:
+  - name: freq
+    type: codelist
+    provider: sdmx
+    agency: ESTAT
+    id: FREQ
+  - name: nrg_bal
+    type: codelist
+    provider: sdmx
+    agency: ESTAT
+    id: NRG_BAL
+  - name: unit
+    type: codelist
+    provider: sdmx
+    agency: ESTAT
+    id: UNIT
+  - name: flag
+    type: codelist
+    provider: sdmx
+    agency: ESTAT
+    id: OBS_FLAG
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: auto
+    mode: latest
+    delim: ","
+    encoding: utf-8
+    header: true
+  required_columns: [freq, nrg_bal, unit, geo, year, value]
+  validate:
+    min_rows: 100
+    not_null: [geo, year]
+
+mart:
+  tables:
+    - name: "mart_rinnovabili_italia"
+      sql: "sql/mart_rinnovabili_italia.sql"
+    - name: "mart_ranking_eu"
+      sql: "sql/mart_ranking_eu.sql"
+  required_tables:
+    - "mart_rinnovabili_italia"
+    - "mart_ranking_eu"
+  validate:
+    table_rules:
+      mart_rinnovabili_italia:
+        required_columns: [year, rinnovabili_pct, target_2030, gap_target_pct, ma3, yoy_pct, classificazione]
+        primary_key: [year]
+        min_rows: 15
+      mart_ranking_eu:
+        required_columns: [year, geo, rinnovabili_pct, rank]
+        primary_key: [year, geo]
+        min_rows: 20
+
+validation:
+  fail_on_error: true
+
+registry:
+  dataflow: "NRG_IND_REN"
+  theme: "Energy / Renewable sources"
+  nuts_level: 0
+  dimensions: ["freq", "nrg_bal", "unit", "geo"]
+  description: "Share of renewable energy in gross final energy consumption (%)"

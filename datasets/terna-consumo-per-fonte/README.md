@@ -1,0 +1,8 @@
+# terna-consumo-per-fonte
+
+Dataset per il progetto energia-italia.
+
+## Stato
+- [ ] Run pipeline completa
+- [ ] Dashboard Streamlit
+- [ ] Analisi pubblica

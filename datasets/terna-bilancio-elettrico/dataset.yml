@@ -1,0 +1,61 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "terna_bilancio_elettrico"
+  source_id: "terna_opendata"
+  tags: [energia, elettricità, bilancio, emissioni, confronti-internazionali]
+  category: energia
+  years: [2022, 2023]
+  time_coverage:
+    start_year: 2022
+    end_year: 2023
+  notes: |
+    Dataset di confronto internazionale (non bilancio italiano).
+    Solo 2022-2023 hanno dati completi. Per il bilancio italiano
+    vedi terna_consumo_per_fonte + terna_elettricita_per_fonte.
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "terna_electricity_balance_xlsx"
+      type: "http_file"
+      args:
+        url: "https://dati.terna.it/api/sitecore/dati/downloadcenter/records?f=xlsx&filterDataset=ElectricityBalance&filterYear={year}&filterMonth=12&orderByColumn=Anno&orderByDir=desc&db=dati&pageSize=100"
+        filename: "terna_electricity_balance_{year}_12.xlsx"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: auto
+    mode: latest
+    header: true
+    sheet_name: "Export"
+  required_columns: [anno, nazione, produzione_neta_twh, richiesta_twh]
+  validate:
+    min_rows: 10
+    not_null: [anno, nazione]
+
+mart:
+  tables:
+    - name: "mart_bilancio_italia"
+      sql: "sql/mart_bilancio_italia.sql"
+    - name: "mart_confronto_ue"
+      sql: "sql/mart_confronto_ue.sql"
+  required_tables:
+    - "mart_bilancio_italia"
+    - "mart_confronto_ue"
+  validate:
+    table_rules:
+      mart_bilancio_italia:
+        required_columns: [anno, produzione_neta_twh, importazione_neta_twh, richiesta_twh, emissioni_co2_mt]
+        primary_key: [anno]
+        min_rows: 1
+      mart_confronto_ue:
+        required_columns: [anno, nazione, produzione_neta_twh, emissioni_co2_mt, intensita_carbone]
+        primary_key: [anno, nazione]
+        min_rows: 5
+
+validation:
+  fail_on_error: false

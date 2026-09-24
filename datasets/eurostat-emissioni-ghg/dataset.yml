@@ -1,0 +1,99 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "eurostat_emissioni_ghg"
+  source_id: "eurostat"
+  tags: [ambiente, emissioni, ghg, eurostat, clima, carbon, co2, ch4, n2o, fgas]
+  category: ambiente
+  years: [2026]
+  time_coverage:
+    start_year: 2008
+    end_year: 2023
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "eurostat_env_ac_ainah_r2"
+      type: "sdmx"
+      args:
+        agency: "ESTAT"
+        flow: "ENV_AC_AINAH_R2"
+      primary: true
+
+support:
+  - name: freq
+    type: codelist
+    provider: sdmx
+    agency: ESTAT
+    id: FREQ
+  - name: airpol
+    type: codelist
+    provider: sdmx
+    agency: ESTAT
+    id: AIRPOL
+  - name: nace_r2
+    type: codelist
+    provider: sdmx
+    agency: ESTAT
+    id: NACE_R2
+  - name: unit
+    type: codelist
+    provider: sdmx
+    agency: ESTAT
+    id: UNIT
+  - name: flag
+    type: codelist
+    provider: sdmx
+    agency: ESTAT
+    id: OBS_FLAG
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: auto
+    mode: latest
+    delim: ","
+    encoding: utf-8
+    header: true
+  required_columns: [freq, airpol, nace_r2, unit, geo, year, value]
+  validate:
+    min_rows: 1000
+    not_null: [airpol, nace_r2, year]
+
+mart:
+  tables:
+    - name: "mart_emissioni_italia_gas"
+      sql: "sql/mart_emissioni_italia_gas.sql"
+    - name: "mart_emissioni_italia_settori"
+      sql: "sql/mart_emissioni_italia_settori.sql"
+    - name: "mart_confronto_eu"
+      sql: "sql/mart_confronto_eu.sql"
+  required_tables:
+    - "mart_emissioni_italia_gas"
+    - "mart_emissioni_italia_settori"
+    - "mart_confronto_eu"
+  validate:
+    table_rules:
+      mart_emissioni_italia_gas:
+        required_columns: [year, gas, emissioni_t, ma3, yoy_pct, classificazione]
+        primary_key: [year, gas]
+        min_rows: 100
+      mart_emissioni_italia_settori:
+        required_columns: [year, settore, gas, emissioni_t]
+        primary_key: [year, settore, gas]
+        min_rows: 1000
+      mart_confronto_eu:
+        required_columns: [year, gas, emissioni_it, emissioni_eu27, quota_it_pct]
+        primary_key: [year, gas]
+        min_rows: 15
+
+validation:
+  fail_on_error: true
+
+registry:
+  dataflow: "ENV_AC_AINAH_R2"
+  theme: "Environment / GHG emissions by sector and gas"
+  nuts_level: 0
+  dimensions: ["freq", "airpol", "nace_r2", "unit", "geo"]
+  description: "Greenhouse gas emissions by NACE sector, gas type, and unit (tonnes)"
