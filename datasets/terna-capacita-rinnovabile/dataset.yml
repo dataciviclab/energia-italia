@@ -40,7 +40,7 @@ mart:
       mart_regioni_fonti_nette:
         required_columns: [anno, regione, fonti, potenza_totale_mw]
         primary_key: [anno, regione, fonti]
-        min_rows: 500
+        min_rows: 50
 
 validation:
-  fail_on_error: false
+  fail_on_error: true

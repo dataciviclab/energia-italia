@@ -58,4 +58,4 @@ mart:
         min_rows: 5
 
 validation:
-  fail_on_error: false
+  fail_on_error: true

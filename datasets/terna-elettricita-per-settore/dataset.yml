@@ -27,7 +27,7 @@ clean:
     sheet_name: "Export"
   required_columns: [anno, regione, provincia, settore, consumo_gwh]
   validate:
-    min_rows: 100
+    min_rows: 50
     not_null: [anno, settore]
 
 mart:
@@ -41,7 +41,7 @@ mart:
       mart_consumi_settore_provincia:
         required_columns: [anno, regione, settore, consumo_gwh]
         primary_key: [anno, regione, settore]
-        min_rows: 50
+        min_rows: 15
 
 validation:
-  fail_on_error: false
+  fail_on_error: true

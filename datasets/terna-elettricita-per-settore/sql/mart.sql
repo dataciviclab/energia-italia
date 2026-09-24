@@ -6,9 +6,8 @@
 SELECT
     anno,
     regione,
-    provincia,
     settore,
-    ROUND(SUM(consumo_gwh), 3) AS consumo_totale_gwh
+    ROUND(SUM(consumo_gwh), 3) AS consumo_gwh
 FROM clean_input
-GROUP BY anno, regione, provincia, settore
-ORDER BY anno DESC, regione, provincia, settore
+GROUP BY anno, regione, settore
+ORDER BY anno DESC, regione, settore
