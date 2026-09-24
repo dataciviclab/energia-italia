@@ -1,112 +1,99 @@
-# Italian Energy Intelligence
+# Energia Italia
 
-Analisi del sistema elettrico italiano: produzione, mix energetico, prezzi, emissioni e confronti EU.
+Come sta cambiando il sistema elettrico italiano — produzione, prezzi, emissioni, confronti EU. Dati aperti da Terna, GME, Eurostat, ISPRA, ISTAT.
 
-## Storia che raccontiamo
+## Perché questi dati
 
-Come sta cambiando il sistema elettrico italiano — dal termoelettrico alle rinnovabili, dai prezzi alle emissioni.
+L'Italia sta attraversando una transizione energetica veloce: il fotovoltaico è raddoppiato in 2 anni, il termoelettrico perde terreno, i prezzi seguono il mix. Questi dati permettono dimonitorare la transizione con evidenze, non con opinioni.
 
-**Trend chiave (2015-2024):**
+**Numeri chiave (2015-2024):**
 - FV installato: 19 GW → 37 GW (+96%)
 - Quota rinnovabili: 33.5% → 39.9%
-- Termoelettrico: 51.4% → 44.6% della copertura
+- Termoelettrico: 51.4% → 44.6%
 - Intensità carbone: 305 → 257 g CO2/kWh
 
-## Dataset
+## Cosa contengono
 
-### Produzione e Mix
+| Dataset | Periodo | Righe | Copertura |
+|---------|---------|-------|-----------|
+| `terna-capacita-rinnovabile` | 2015-2024 | ~1.100/anno | MW per regione, fonte |
+| `terna-elettricita-per-fonte` | 2015-2024 | ~850/anno | GWh per regione, provincia, fonte |
+| `terna-copertura-domanda` | 2015-2024 | ~180/anno | Copertura domanda per fonte |
+| `terna-elettricita-per-settore` | 2015-2024 | ~100/anno | Consumi per settore, provincia |
+| `terna-emissioni-co2` | 2015-2024 | ~100/anno | CO2 per combustibile, regione |
+| `terna-bilancio-elettrico` | 2022-2023 | 9 paesi | Confronti EU |
+| `gme-pun-storico` | 2020-2026 | 78 | PUN/PSV mensili |
 
-| Dataset | Fonte | Periodo | Granularità |
-|---------|-------|---------|-------------|
-| `terna-capacita-rinnovabile` | Terna Download Center | 2015-2024 | Regione, fonte, anno |
-| `terna-elettricita-per-fonte` | Terna Download Center | 2015-2024 | Regione, provincia, fonte |
-| `terna-copertura-domanda` | Terna Download Center | 2015-2024 | Fonte, regione |
-| `terna-consumo-per-fonte` | Terna Download Center | 2015-2024 | Fonte, regione |
+## Esempi di domande
 
-### Consumi
+1. Quanto contribuisce il fotovoltaico alla copertura della domanda italiana?
+2. Come si muovono i prezzi PUN in relazione alla quota rinnovabili?
+3. Quali regioni hanno la più alta intensità di carbonio?
+4. Come performa l'Italia rispetto a Germania e Francia in termini di emissioni?
+5. Qual è l'andamento delle emissioni CO2 per combustibile?
 
-| Dataset | Fonte | Periodo | Granolarità |
-|---------|-------|---------|-------------|
-| `terna-elettricita-per-settore` | Terna Download Center | 2015-2024 | Settore, provincia |
+## Come accedere
 
-### Prezzi
-
-| Dataset | Fonte | Periodo | Granolarità |
-|---------|-------|---------|-------------|
-| `gme-pun-storico` | Portale Offerte | 2020-2026 | Mensile (PUN, PSV, PE) |
-
-### Emissioni
-
-| Dataset | Fonte | Periodo | Granolarità |
-|---------|-------|---------|-------------|
-| `terna-emissioni-co2` | Terna Download Center | 2015-2024 | Combustibile, regione |
-| `ispra-emissioni-ghg` | ISPRA | 1990-2023 | Settore, nazionale |
-| `eurostat-emissioni-ghg` | Eurostat SDMX | 2008-2023 | NACE, paese EU |
-
-### Confronti EU
-
-| Dataset | Fonte | Periodo | Granolarità |
-|---------|-------|---------|-------------|
-| `terna-bilancio-elettrico` | Terna Download Center | 2022-2023 | Paese EU |
-| `eurostat-rinnovabili` | Eurostat SDMX | 2004-2025 | Paese EU, % target |
-
-### Policy (laterale)
-
-| Dataset | Fonte | Periodo |
-|---------|-------|---------|
-| `istat-subsidi-ambientali` | ISTAT | 1995-2023 |
-| `istat-investimenti-mitigazione` | ISTAT | 2016-2023 |
-
-## Setup
+### Dashboard interattiva
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e .
+cd dashboard && streamlit run app.py
 ```
 
-## Uso
+### Dati locali (parquet)
+
+I dati puliti sono in `out/data/clean/` e `out/data/mart/`:
+
+```python
+import duckdb
+con = duckdb.connect()
+df = con.sql("SELECT * FROM read_parquet('out/data/clean/terna_copertura_domanda/2024/*.parquet')").df()
+```
+
+### Query SQL
 
 ```bash
-# Esegui tutti i dataset
-make run-all
-
-# Esegui un singolo dataset
-toolkit run --config datasets/terna-copertura-domanda/dataset.yml
-
-# Aggiorna registry
-make registry-write
-
-# Esegui reconcile (cross-check fonti)
-python3 scripts/reconcile.py
+make run-all          # esegui tutti i dataset
+make reconcile        # cross-check tra fonti
 ```
+
+## Dashboard
+
+6 pagine Streamlit:
+- **Panoramica** — KPI principali + trend rinnovabili
+- **Mix Energetico** — stacked bar + dettaglio regionale
+- **Prezzi** — PUN/PSV mensili e annuale
+- **Emissioni** — CO2 per combustibile e regione
+- **Confronti EU** — intensità carbone Italia vs Europa
+- **Query SQL** — interrogazione libera
+
+## Reconcile
+
+Cross-check automatico tra fonti indipendenti:
+
+| Caso | Fonti | Cosa verifica |
+|------|-------|---------------|
+| Capacity factor | Terna capacity vs produzione | Coerenza MW installati / GWh prodotti |
+| PUN annuale | GME Portale Offerte | Profilo prezzi 2020-2026 |
 
 ## Struttura
 
 ```
 energia-italia/
 ├── datasets/           # Config e SQL per ogni dataset
-│   ├── terna-*/        # Dati Terna (Download Center)
-│   ├── gme-*/          # Dati GME (Portale Offerte)
-│   ├── eurostat-*/     # Dati Eurostat (SDMX)
-│   ├── ispra-*/        # Dati ISPRA
-│   └── istat-*/        # Dati ISTAT
-├── data/               # Reconcile output
 ├── dashboard/          # Streamlit dashboard
-├── scripts/            # reconcile.py, signals.py
+├── scripts/            # reconcile.py
 ├── tests/              # Test
 ├── registry/           # Registry dataset
 └── out/                # Output pipeline (raw, clean, mart)
 ```
 
-## Reconcile
+## Partecipa
 
-Cross-check automatico tra fonti indipendenti:
-- ISPRA vs Eurostat (emissioni GHG)
-- Terna capacity vs produzione (capacity factor)
-- Terna emissioni CO2 vs ISPRA (termoelettrico vs processi energetici)
-- GME PUN (profilo annuale)
+- [Discussions](https://github.com/dataciviclab/energia-italia/discussions) — domande, idee, feedback
+- [Issues](https://github.com/dataciviclab/energia-italia/issues) — bug, dataset mancanti, miglioramenti
+- Contribuire: vedi `CONTRIBUTING.md`
 
 ## Licenza
 
-CC BY 4.0
+[![CC BY 4.0](https://img.shields.io/badge/Licenza-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
