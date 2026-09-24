@@ -79,14 +79,17 @@ except Exception as e:
 st.subheader("Statistiche")
 
 if not df.empty:
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2 = st.columns(2)
     with col1:
-        st.metric("PUN minimo storico", f"{df['pun_min_kwh'].min():.4f} EUR/kWh")
+        st.metric("PUN medio storico", f"{df['pun_eur_kwh'].mean():.4f} EUR/kWh")
     with col2:
-        st.metric("PUN massimo storico", f"{df['pun_max_kwh'].max():.4f} EUR/kWh")
+        st.metric("PSV medio", f"{df['psv_eur_smc'].mean():.4f} EUR/Smc")
+
+if not df_ann.empty:
+    col3, col4 = st.columns(2)
     with col3:
-        st.metric("PSV medio", f"{df['psv_medio_smc'].mean():.4f} EUR/Smc")
+        st.metric("PUN minimo annuale", f"{df_ann['pun_min_kwh'].min():.4f} EUR/kWh")
     with col4:
-        st.metric("Anni disponibili", f"{df['anno'].nunique()}")
+        st.metric("PUN massimo annuale", f"{df_ann['pun_max_kwh'].max():.4f} EUR/kWh")
 
 st.caption("Fonti: GME (Portale Offerte) · CC BY 4.0")
