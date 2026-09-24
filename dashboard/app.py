@@ -38,6 +38,5 @@ st.sidebar.caption("Dati: Terna, GME, Eurostat, ISPRA, ISTAT")
 st.sidebar.caption(
     "Codice: [dataciviclab/energia-italia](https://github.com/dataciviclab/energia-italia)"
 )
-st.sidebar.caption("[DataCivicLab](https://dataciviclab.org/) · CC BY 4.0")
 
 pg.run()

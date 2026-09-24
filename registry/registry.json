@@ -886,56 +886,6 @@
   ],
   "marts": [
     {
-      "slug": "eurostat_emissioni_ghg__mart_confronto_eu",
-      "dataset": "eurostat_emissioni_ghg",
-      "table": "mart_confronto_eu",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/eurostat_emissioni_ghg/2026/mart_confronto_eu.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "eurostat_emissioni_ghg__mart_emissioni_italia_gas",
-      "dataset": "eurostat_emissioni_ghg",
-      "table": "mart_emissioni_italia_gas",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/eurostat_emissioni_ghg/2026/mart_emissioni_italia_gas.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "eurostat_emissioni_ghg__mart_emissioni_italia_settori",
-      "dataset": "eurostat_emissioni_ghg",
-      "table": "mart_emissioni_italia_settori",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/eurostat_emissioni_ghg/2026/mart_emissioni_italia_settori.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "eurostat_rinnovabili__mart_ranking_eu",
-      "dataset": "eurostat_rinnovabili",
-      "table": "mart_ranking_eu",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/eurostat_rinnovabili/2026/mart_ranking_eu.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "eurostat_rinnovabili__mart_rinnovabili_italia",
-      "dataset": "eurostat_rinnovabili",
-      "table": "mart_rinnovabili_italia",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/eurostat_rinnovabili/2026/mart_rinnovabili_italia.parquet",
-        "multi_file": false
-      }
-    },
-    {
       "slug": "gme_pun_storico__mart_pun_annuale",
       "dataset": "gme_pun_storico",
       "table": "mart_pun_annuale",
@@ -952,66 +902,6 @@
       "location": {
         "type": "gcs",
         "path": "gs://dataciviclab-mart/energia_italia/gme_pun_storico/2026/mart_pun_mensile.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "ispra_emissioni_ghg__mart_settori_anno",
-      "dataset": "ispra_emissioni_ghg",
-      "table": "mart_settori_anno",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/ispra_emissioni_ghg/2023/mart_settori_anno.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "ispra_emissioni_ghg__mart_trend_settori",
-      "dataset": "ispra_emissioni_ghg",
-      "table": "mart_trend_settori",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/ispra_emissioni_ghg/2023/mart_trend_settori.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "istat_investimenti_mitigazione__mart_investimenti_per_cea",
-      "dataset": "istat_investimenti_mitigazione",
-      "table": "mart_investimenti_per_cea",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/istat_investimenti_mitigazione/2026/mart_investimenti_per_cea.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "istat_investimenti_mitigazione__mart_trend_investimenti",
-      "dataset": "istat_investimenti_mitigazione",
-      "table": "mart_trend_investimenti",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/istat_investimenti_mitigazione/2026/mart_trend_investimenti.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "istat_subsidi_ambientali__mart_sussidi_per_cea",
-      "dataset": "istat_subsidi_ambientali",
-      "table": "mart_sussidi_per_cea",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/istat_subsidi_ambientali/2026/mart_sussidi_per_cea.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "istat_subsidi_ambientali__mart_trend_sussidi",
-      "dataset": "istat_subsidi_ambientali",
-      "table": "mart_trend_sussidi",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/istat_subsidi_ambientali/2026/mart_trend_sussidi.parquet",
         "multi_file": false
       }
     },
@@ -1042,16 +932,6 @@
       "location": {
         "type": "gcs",
         "path": "gs://dataciviclab-mart/energia_italia/terna_capacita_rinnovabile/2024/mart_regioni_fonti_nette.parquet",
-        "multi_file": false
-      }
-    },
-    {
-      "slug": "terna_consumo_per_fonte__mart_consumo_fonte_nazionale",
-      "dataset": "terna_consumo_per_fonte",
-      "table": "mart_consumo_fonte_nazionale",
-      "location": {
-        "type": "gcs",
-        "path": "gs://dataciviclab-mart/energia_italia/terna_consumo_per_fonte/2024/mart_consumo_fonte_nazionale.parquet",
         "multi_file": false
       }
     },
@@ -1118,56 +998,6 @@
   ],
   "signals": [
     {
-      "id": "eurostat_emissioni_ghg",
-      "source_id": "eurostat",
-      "status": "ok",
-      "label": "eurostat_emissioni_ghg",
-      "detail": "anno 2026 — mart: si",
-      "action": "",
-      "run": {
-        "run_id": "20260904T142958Z_ba0669a0",
-        "year": 2026,
-        "status": "SUCCESS",
-        "quality_score": {
-          "mart": 100
-        },
-        "output_rows": {
-          "mart": 1921
-        },
-        "output_bytes": {
-          "mart": 17863
-        },
-        "started_at": "2026-09-04T14:29:58.272670+00:00",
-        "finished_at": "2026-09-04T14:29:58.650086+00:00",
-        "duration_seconds": 0.377
-      }
-    },
-    {
-      "id": "eurostat_rinnovabili",
-      "source_id": "eurostat",
-      "status": "ok",
-      "label": "eurostat_rinnovabili",
-      "detail": "anno 2026 — mart: si",
-      "action": "",
-      "run": {
-        "run_id": "20260904T142959Z_a310340a",
-        "year": 2026,
-        "status": "SUCCESS",
-        "quality_score": {
-          "mart": 100
-        },
-        "output_rows": {
-          "mart": 44
-        },
-        "output_bytes": {
-          "mart": 4187
-        },
-        "started_at": "2026-09-04T14:29:59.575043+00:00",
-        "finished_at": "2026-09-04T14:29:59.817395+00:00",
-        "duration_seconds": 0.242
-      }
-    },
-    {
       "id": "gme_pun_storico",
       "source_id": "gme",
       "status": "ok",
@@ -1196,81 +1026,6 @@
         "started_at": "2026-09-23T22:59:12.592198+00:00",
         "finished_at": "2026-09-23T22:59:12.387456+00:00",
         "duration_seconds": -0.205
-      }
-    },
-    {
-      "id": "ispra_emissioni_ghg",
-      "source_id": "ispra",
-      "status": "ok",
-      "label": "ispra_emissioni_ghg",
-      "detail": "anno 2023 — mart: si",
-      "action": "",
-      "run": {
-        "run_id": "20260904T143000Z_5d3c143a",
-        "year": 2023,
-        "status": "SUCCESS",
-        "quality_score": {
-          "mart": 100
-        },
-        "output_rows": {
-          "mart": 141
-        },
-        "output_bytes": {
-          "mart": 6841
-        },
-        "started_at": "2026-09-04T14:30:00.735820+00:00",
-        "finished_at": "2026-09-04T14:30:01.040117+00:00",
-        "duration_seconds": 0.304
-      }
-    },
-    {
-      "id": "istat_investimenti_mitigazione",
-      "source_id": "istat_sdmx",
-      "status": "ok",
-      "label": "istat_investimenti_mitigazione",
-      "detail": "anno 2026 — mart: si",
-      "action": "",
-      "run": {
-        "run_id": "20260904T141753Z_500ff51c",
-        "year": 2026,
-        "status": "SUCCESS",
-        "quality_score": {
-          "mart": 100
-        },
-        "output_rows": {
-          "mart": 135
-        },
-        "output_bytes": {
-          "mart": 3544
-        },
-        "started_at": "2026-09-04T14:17:53.871367+00:00",
-        "finished_at": "2026-09-04T14:17:54.090864+00:00",
-        "duration_seconds": 0.219
-      }
-    },
-    {
-      "id": "istat_subsidi_ambientali",
-      "source_id": "istat_sdmx",
-      "status": "ok",
-      "label": "istat_subsidi_ambientali",
-      "detail": "anno 2026 — mart: si",
-      "action": "",
-      "run": {
-        "run_id": "20260904T141754Z_9a60fc80",
-        "year": 2026,
-        "status": "SUCCESS",
-        "quality_score": {
-          "mart": 100
-        },
-        "output_rows": {
-          "mart": 134
-        },
-        "output_bytes": {
-          "mart": 3253
-        },
-        "started_at": "2026-09-04T14:17:54.912113+00:00",
-        "finished_at": "2026-09-04T14:17:55.152085+00:00",
-        "duration_seconds": 0.24
       }
     },
     {
@@ -1326,31 +1081,6 @@
         "started_at": "2026-09-04T14:19:18.841128+00:00",
         "finished_at": "2026-09-04T14:19:19.037522+00:00",
         "duration_seconds": 0.196
-      }
-    },
-    {
-      "id": "terna_consumo_per_fonte",
-      "source_id": "terna_opendata",
-      "status": "ok",
-      "label": "terna_consumo_per_fonte",
-      "detail": "anni 2015-2024 — mart: si",
-      "action": "",
-      "run": {
-        "run_id": "20260904T141759Z_c052cd46",
-        "year": 2024,
-        "status": "SUCCESS",
-        "quality_score": {
-          "mart": 100
-        },
-        "output_rows": {
-          "mart": 9
-        },
-        "output_bytes": {
-          "mart": 1539
-        },
-        "started_at": "2026-09-04T14:17:59.969894+00:00",
-        "finished_at": "2026-09-04T14:18:00.124313+00:00",
-        "duration_seconds": 0.154
       }
     },
     {
