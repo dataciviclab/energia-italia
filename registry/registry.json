@@ -1,0 +1,983 @@
+{
+  "schema_version": 1,
+  "repo": "energia-italia",
+  "source_repo": "dataciviclab/energia-italia",
+  "updated_at": "2026-10-15",
+  "datasets": [
+    {
+      "slug": "gme_pun_storico",
+      "name": "Gme Pun Storico",
+      "description": "",
+      "source": "",
+      "source_id": "gme",
+      "period": {
+        "start": 2020,
+        "end": 2026
+      },
+      "tags": [
+        "energia",
+        "elettricità",
+        "prezzi",
+        "pun",
+        "psv",
+        "mercato"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "mese",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "month"
+        },
+        {
+          "name": "anno_mese",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "pun_eur_kwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "psv_eur_smc",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "pe_eur_kwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "cmem_eur_smc",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "pfor_eur_smc",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "psbil_eur_smc",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/gme_pun_storico/2026/gme_pun_storico_2026_clean.parquet",
+        "multi_file": false
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "gme_pun_storico__mart_pun_mensile",
+        "gme_pun_storico__mart_pun_annuale"
+      ]
+    },
+    {
+      "slug": "terna_bilancio_elettrico",
+      "name": "Terna Bilancio Elettrico",
+      "description": "",
+      "source": "",
+      "source_id": "terna_opendata",
+      "period": {
+        "start": 2022,
+        "end": 2023
+      },
+      "tags": [
+        "energia",
+        "elettricità",
+        "bilancio",
+        "emissioni",
+        "confronti-internazionali"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "nazione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "country_code"
+        },
+        {
+          "name": "produzione_neta_twh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "importazione_neta_twh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "richiesta_twh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "consumi_twh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "emissioni_co2_mt",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "produzione_termo_gwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "produzione_totale_gwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "emissioni_co2_termo_gr_kwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "emissioni_co2_totali_gr_kwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/terna_bilancio_elettrico/*/terna_bilancio_elettrico_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "terna_bilancio_elettrico__mart_bilancio_italia",
+        "terna_bilancio_elettrico__mart_confronto_ue"
+      ]
+    },
+    {
+      "slug": "terna_capacita_rinnovabile",
+      "name": "Terna Capacita Rinnovabile",
+      "description": "",
+      "source": "",
+      "source_id": "terna_opendata",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "energia",
+        "elettricità",
+        "fonti-rinnovabili"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "tipo_capacita",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "provincia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "province_code"
+        },
+        {
+          "name": "fonti",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "potenza_mw",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/terna_capacita_rinnovabile/*/terna_capacita_rinnovabile_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "terna_capacita_rinnovabile__mart_regioni_fonti_nette"
+      ]
+    },
+    {
+      "slug": "terna_copertura_domanda",
+      "name": "Terna Copertura Domanda",
+      "description": "",
+      "source": "",
+      "source_id": "terna_opendata",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "energia",
+        "elettricità",
+        "consumo",
+        "fonti-rinnovabili",
+        "regioni"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "fonte",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "copertura_gwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/terna_copertura_domanda/*/terna_copertura_domanda_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "terna_copertura_domanda__mart_copertura_fonte_nazionale",
+        "terna_copertura_domanda__mart_copertura_fonte_regione"
+      ]
+    },
+    {
+      "slug": "terna_elettricita_per_fonte",
+      "name": "Terna Elettricita Per Fonte",
+      "description": "",
+      "source": "",
+      "source_id": "terna_opendata",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "energia",
+        "elettricità",
+        "fonti-rinnovabili",
+        "clima",
+        "mix-energetico"
+      ],
+      "category": "ambiente",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "tipo_produzione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "provincia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "province_code"
+        },
+        {
+          "name": "fonte",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "produzione_gwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/terna_elettricita_per_fonte/*/terna_elettricita_per_fonte_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "terna_elettricita_per_fonte__mart_mix_regioni"
+      ]
+    },
+    {
+      "slug": "terna_elettricita_per_settore",
+      "name": "Terna Elettricita Per Settore",
+      "description": "",
+      "source": "",
+      "source_id": "terna_opendata",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "energia",
+        "elettricità",
+        "consumi",
+        "settore"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "provincia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "province_code"
+        },
+        {
+          "name": "settore",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "consumo_gwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/terna_elettricita_per_settore/*/terna_elettricita_per_settore_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "terna_elettricita_per_settore__mart_consumi_settore_provincia"
+      ]
+    },
+    {
+      "slug": "terna_emissioni_co2",
+      "name": "Terna Emissioni Co2",
+      "description": "",
+      "source": "",
+      "source_id": "terna_opendata",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "energia",
+        "emissioni",
+        "co2",
+        "combustibile",
+        "regioni"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "combustibile",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "produzione",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "emissioni_mt",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/terna_emissioni_co2/*/terna_emissioni_co2_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "terna_emissioni_co2__mart_emissioni_combustibile",
+        "terna_emissioni_co2__mart_emissioni_regione"
+      ]
+    }
+  ],
+  "marts": [
+    {
+      "slug": "gme_pun_storico__mart_pun_annuale",
+      "dataset": "gme_pun_storico",
+      "table": "mart_pun_annuale",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/gme_pun_storico/2026/mart_pun_annuale.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "gme_pun_storico__mart_pun_mensile",
+      "dataset": "gme_pun_storico",
+      "table": "mart_pun_mensile",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/gme_pun_storico/2026/mart_pun_mensile.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_bilancio_elettrico__mart_bilancio_italia",
+      "dataset": "terna_bilancio_elettrico",
+      "table": "mart_bilancio_italia",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_bilancio_elettrico/2023/mart_bilancio_italia.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_bilancio_elettrico__mart_confronto_ue",
+      "dataset": "terna_bilancio_elettrico",
+      "table": "mart_confronto_ue",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_bilancio_elettrico/2023/mart_confronto_ue.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_capacita_rinnovabile__mart_regioni_fonti_nette",
+      "dataset": "terna_capacita_rinnovabile",
+      "table": "mart_regioni_fonti_nette",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_capacita_rinnovabile/2024/mart_regioni_fonti_nette.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_copertura_domanda__mart_copertura_fonte_nazionale",
+      "dataset": "terna_copertura_domanda",
+      "table": "mart_copertura_fonte_nazionale",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_copertura_domanda/2024/mart_copertura_fonte_nazionale.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_copertura_domanda__mart_copertura_fonte_regione",
+      "dataset": "terna_copertura_domanda",
+      "table": "mart_copertura_fonte_regione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_copertura_domanda/2024/mart_copertura_fonte_regione.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_elettricita_per_fonte__mart_mix_regioni",
+      "dataset": "terna_elettricita_per_fonte",
+      "table": "mart_mix_regioni",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_elettricita_per_fonte/2024/mart_mix_regioni.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_elettricita_per_settore__mart_consumi_settore_provincia",
+      "dataset": "terna_elettricita_per_settore",
+      "table": "mart_consumi_settore_provincia",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_elettricita_per_settore/2024/mart_consumi_settore_provincia.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_emissioni_co2__mart_emissioni_combustibile",
+      "dataset": "terna_emissioni_co2",
+      "table": "mart_emissioni_combustibile",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_emissioni_co2/2024/mart_emissioni_combustibile.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_emissioni_co2__mart_emissioni_regione",
+      "dataset": "terna_emissioni_co2",
+      "table": "mart_emissioni_regione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_emissioni_co2/2024/mart_emissioni_regione.parquet",
+        "multi_file": false
+      }
+    }
+  ],
+  "signals": [
+    {
+      "id": "gme_pun_storico",
+      "source_id": "gme",
+      "status": "ok",
+      "label": "gme_pun_storico",
+      "detail": "anno 2026 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261015T191000Z_d41570d9",
+        "year": 2026,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 78,
+          "clean": 78,
+          "mart": 85
+        },
+        "output_bytes": {
+          "raw": 4561,
+          "clean": 4428,
+          "mart": 5494
+        },
+        "started_at": "2026-10-15T19:10:00.646607+00:00",
+        "finished_at": "2026-10-15T19:10:03.258982+00:00",
+        "duration_seconds": 2.612
+      }
+    },
+    {
+      "id": "terna_bilancio_elettrico",
+      "source_id": "terna_opendata",
+      "status": "ok",
+      "label": "terna_bilancio_elettrico",
+      "detail": "anni 2022-2023 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261015T191006Z_518a9708",
+        "year": 2023,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 100,
+          "mart": 10
+        },
+        "output_bytes": {
+          "raw": 11852,
+          "clean": 7729,
+          "mart": 3567
+        },
+        "started_at": "2026-10-15T19:10:06.091878+00:00",
+        "finished_at": "2026-10-15T19:10:07.137676+00:00",
+        "duration_seconds": 1.046
+      }
+    },
+    {
+      "id": "terna_capacita_rinnovabile",
+      "source_id": "terna_opendata",
+      "status": "ok",
+      "label": "terna_capacita_rinnovabile",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261015T191024Z_5dbb445a",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 1070,
+          "mart": 100
+        },
+        "output_bytes": {
+          "raw": 33076,
+          "clean": 7528,
+          "mart": 2978
+        },
+        "started_at": "2026-10-15T19:10:24.844672+00:00",
+        "finished_at": "2026-10-15T19:10:26.059777+00:00",
+        "duration_seconds": 1.215
+      }
+    },
+    {
+      "id": "terna_copertura_domanda",
+      "source_id": "terna_opendata",
+      "status": "ok",
+      "label": "terna_copertura_domanda",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261015T191040Z_1972289d",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 180,
+          "mart": 189
+        },
+        "output_bytes": {
+          "raw": 7095,
+          "clean": 2632,
+          "mart": 3165
+        },
+        "started_at": "2026-10-15T19:10:40.365448+00:00",
+        "finished_at": "2026-10-15T19:10:41.158528+00:00",
+        "duration_seconds": 0.793
+      }
+    },
+    {
+      "id": "terna_elettricita_per_fonte",
+      "source_id": "terna_opendata",
+      "status": "ok",
+      "label": "terna_elettricita_per_fonte",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261015T191057Z_26b40da5",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 900,
+          "mart": 20
+        },
+        "output_bytes": {
+          "raw": 28610,
+          "clean": 7315,
+          "mart": 2008
+        },
+        "started_at": "2026-10-15T19:10:57.285743+00:00",
+        "finished_at": "2026-10-15T19:10:58.122869+00:00",
+        "duration_seconds": 0.837
+      }
+    },
+    {
+      "id": "terna_elettricita_per_settore",
+      "source_id": "terna_opendata",
+      "status": "ok",
+      "label": "terna_elettricita_per_settore",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261015T191112Z_21ed2946",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 100,
+          "mart": 20
+        },
+        "output_bytes": {
+          "raw": 5530,
+          "clean": 2125,
+          "mart": 1085
+        },
+        "started_at": "2026-10-15T19:11:12.995769+00:00",
+        "finished_at": "2026-10-15T19:11:14.265915+00:00",
+        "duration_seconds": 1.27
+      }
+    },
+    {
+      "id": "terna_emissioni_co2",
+      "source_id": "terna_opendata",
+      "status": "ok",
+      "label": "terna_emissioni_co2",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261015T191128Z_a09af393",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 100,
+          "mart": 25
+        },
+        "output_bytes": {
+          "raw": 5604,
+          "clean": 2429,
+          "mart": 2465
+        },
+        "started_at": "2026-10-15T19:11:28.006462+00:00",
+        "finished_at": "2026-10-15T19:11:28.887164+00:00",
+        "duration_seconds": 0.881
+      }
+    }
+  ],
+  "codelists": [],
+  "entities": {
+    "entities": {
+      "Nazione": {
+        "entity": "Nazione",
+        "label": "Nazione",
+        "datasets": [
+          {
+            "slug": "terna_bilancio_elettrico",
+            "name": "Terna Bilancio Elettrico",
+            "column": "nazione",
+            "semantic_type": "country_code"
+          }
+        ],
+        "types": {
+          "country_code": 1
+        }
+      },
+      "Provincia": {
+        "entity": "Provincia",
+        "label": "Provincia",
+        "datasets": [
+          {
+            "slug": "terna_capacita_rinnovabile",
+            "name": "Terna Capacita Rinnovabile",
+            "column": "provincia",
+            "semantic_type": "province_code"
+          },
+          {
+            "slug": "terna_elettricita_per_fonte",
+            "name": "Terna Elettricita Per Fonte",
+            "column": "provincia",
+            "semantic_type": "province_code"
+          },
+          {
+            "slug": "terna_elettricita_per_settore",
+            "name": "Terna Elettricita Per Settore",
+            "column": "provincia",
+            "semantic_type": "province_code"
+          }
+        ],
+        "types": {
+          "province_code": 3
+        }
+      },
+      "Regione": {
+        "entity": "Regione",
+        "label": "Regione",
+        "datasets": [
+          {
+            "slug": "terna_capacita_rinnovabile",
+            "name": "Terna Capacita Rinnovabile",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "terna_copertura_domanda",
+            "name": "Terna Copertura Domanda",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "terna_elettricita_per_fonte",
+            "name": "Terna Elettricita Per Fonte",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "terna_elettricita_per_settore",
+            "name": "Terna Elettricita Per Settore",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "terna_emissioni_co2",
+            "name": "Terna Emissioni Co2",
+            "column": "regione",
+            "semantic_type": "region_code"
+          }
+        ],
+        "types": {
+          "region_code": 5
+        }
+      },
+      "Tempo": {
+        "entity": "Tempo",
+        "label": "Tempo / data",
+        "datasets": [
+          {
+            "slug": "gme_pun_storico",
+            "name": "Gme Pun Storico",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "gme_pun_storico",
+            "name": "Gme Pun Storico",
+            "column": "mese",
+            "semantic_type": "month"
+          },
+          {
+            "slug": "terna_bilancio_elettrico",
+            "name": "Terna Bilancio Elettrico",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "terna_capacita_rinnovabile",
+            "name": "Terna Capacita Rinnovabile",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "terna_copertura_domanda",
+            "name": "Terna Copertura Domanda",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "terna_elettricita_per_fonte",
+            "name": "Terna Elettricita Per Fonte",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "terna_elettricita_per_settore",
+            "name": "Terna Elettricita Per Settore",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "terna_emissioni_co2",
+            "name": "Terna Emissioni Co2",
+            "column": "anno",
+            "semantic_type": "year"
+          }
+        ],
+        "types": {
+          "year": 7,
+          "month": 1
+        }
+      }
+    },
+    "bridges": []
+  }
+}
