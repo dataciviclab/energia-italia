@@ -50,6 +50,11 @@ Dove si concentra la capacita rinnovabile installata in Italia e quali territori
 
 - **runnable**
 
+## Aggiornamenti
+
+- **2026-06-06**: espansione 2015-2024 (da 2 anni)
+- **2026-10-16**: espansione **2000-2024** (la fonte ha dati dal 2000); `min_rows` clean abbassato a 800 per il parco piu piccolo dei primi anni (~830 righe). Vedere `notes.md`.
+
 ## Prossimo passo
 
 - PR post-merge: push clean → GCS/BQ, aggiorna registry
