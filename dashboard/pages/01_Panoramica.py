@@ -1,13 +1,20 @@
 """Panoramica — Visione d'insieme del sistema elettrico italiano."""
 
-import streamlit as st
 import plotly.graph_objects as go
+import streamlit as st
 from lab_connectors.formatters import fmt_num, fmt_pct
-from sources import load_copertura, load_pun_annuale, load_emissioni_combustibile, load_capacita, YEARS
+from sources import (
+    COPERTURA_YEARS,
+    load_capacita,
+    load_copertura,
+    load_copertura_storico,
+    load_emissioni_combustibile,
+    load_pun_annuale,
+)
 
 st.title("⚡ Energia Italia")
 
-year = st.selectbox("Anno", list(range(2015, 2025)), index=9)
+year = st.selectbox("Anno", COPERTURA_YEARS, index=len(COPERTURA_YEARS) - 1)
 
 # ── Caricamento dati ──────────────────────────────────────────────────
 df_cop = load_copertura(year)
@@ -32,7 +39,7 @@ cap_rinn = df_cap["potenza_totale_mw"].sum() if not df_cap.empty else 0
 
 k1, k2, k3, k4 = st.columns(4)
 with k1:
-    st.metric("Capacita rinnovabile", f"{cap_rinn:,.0f} MW")
+    st.metric("Capacita rinnovabile", f"{fmt_num(cap_rinn)} MW")
 with k2:
     st.metric("Quota rinnovabili", fmt_pct(rinn_pct / 100, signed=False))
 with k3:
@@ -48,32 +55,52 @@ with k4:
 st.subheader("Evoluzione quota rinnovabili")
 
 trend_data = []
-for y in range(2015, 2025):
-    try:
-        df_y = load_copertura(y)
-        if not df_y.empty:
-            tot = df_y["copertura_gwh"].sum()
-            rin = df_y[df_y["fonte"].isin(rinn_fonti)]["copertura_gwh"].sum()
-            trend_data.append({"anno": y, "rinnovabili_pct": rin / tot * 100 if tot > 0 else 0})
-    except Exception:
-        pass
+try:
+    df_storico = load_copertura_storico()
+    if not df_storico.empty:
+        for y, grp in df_storico.groupby("anno"):
+            tot = grp["copertura_gwh"].sum()
+            rin = grp[grp["fonte"].isin(rinn_fonti)]["copertura_gwh"].sum()
+            trend_data.append({"anno": int(y), "rinnovabili_pct": rin / tot * 100 if tot > 0 else 0})
+except Exception:
+    pass
 
 if trend_data:
+    anno_max = max(trend_data, key=lambda d: d["rinnovabili_pct"])
     fig = go.Figure()
+    # Fascia dello stallo post-pieco, per leggere il trend senza sovrapporre etichette
+    fig.add_vrect(
+        x0=anno_max["anno"], x1=trend_data[-1]["anno"],
+        fillcolor="#9ca3af", opacity=0.12, line_width=0,
+        annotation_text="stallo", annotation_position="top left",
+    )
     fig.add_trace(go.Scatter(
         x=[d["anno"] for d in trend_data],
         y=[d["rinnovabili_pct"] for d in trend_data],
         mode="lines+markers",
         name="Rinnovabili",
-        line=dict(color="#059669", width=3),
+        line={"color": "#059669", "width": 3},
+    ))
+    fig.add_trace(go.Scatter(
+        x=[anno_max["anno"]],
+        y=[anno_max["rinnovabili_pct"]],
+        mode="markers",
+        name=f"Picco {anno_max['anno']}",
+        marker={"color": "#dc2626", "size": 10},
     ))
     fig.update_layout(
         height=300,
         margin={"t": 20, "b": 40},
         yaxis_title="%",
-        xaxis=dict(dtick=1),
+        xaxis={"dtick": 2 if len(trend_data) > 12 else 1},
+        legend={"orientation": "h", "y": -0.2},
     )
     st.plotly_chart(fig, width="stretch")
+    st.caption(
+        f"Picco storico nel {anno_max['anno']} ({anno_max['rinnovabili_pct']:.1f}%), "
+        f"poi stagnazione fino al {trend_data[-1]['anno']} "
+        f"({trend_data[-1]['rinnovabili_pct']:.1f}%)."
+    )
 
 # ── Top fonti ─────────────────────────────────────────────────────────
 st.subheader(f"Fonti di copertura — {year}")
@@ -101,4 +128,8 @@ with col_right:
         hide_index=True,
     )
 
+st.caption(
+    "Nota: la copertura (Terna, ~320 TWh) e la richiesta del bilancio internazionale "
+    "(~305 TWh) usano confini di sistema leggermente diversi — non sono direttamente confrontabili."
+)
 st.caption("Fonti: Terna Download Center · Dati D-1 · CC BY 4.0")

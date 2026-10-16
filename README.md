@@ -16,12 +16,12 @@ L'Italia sta attraversando una transizione energetica veloce: il fotovoltaico è
 
 | Dataset | Periodo | Righe | Copertura |
 |---------|---------|-------|-----------|
-| `terna-capacita-rinnovabile` | 2015-2024 | ~1.100/anno | MW per regione, fonte |
-| `terna-elettricita-per-fonte` | 2015-2024 | ~850/anno | GWh per regione, provincia, fonte |
-| `terna-copertura-domanda` | 2015-2024 | ~180/anno | Copertura domanda per fonte |
-| `terna-elettricita-per-settore` | 2015-2024 | ~100/anno | Consumi per settore, provincia |
-| `terna-emissioni-co2` | 2015-2024 | ~100/anno | CO2 per combustibile, regione |
-| `terna-bilancio-elettrico` | 2022-2023 | 9 paesi | Confronti EU |
+| `terna-capacita-rinnovabile` | 2000-2024 | ~830-1.160/anno | MW per regione, fonte |
+| `terna-elettricita-per-fonte` | 2000-2024 | ~416-900/anno | GWh per regione, provincia, fonte |
+| `terna-copertura-domanda` | 2005-2024 | ~160-180/anno | Copertura domanda per fonte |
+| `terna-elettricita-per-settore` | 2000-2024 | ~412-440/anno | Consumi per settore, provincia |
+| `terna-emissioni-co2` | 2000-2024 | ~84-100/anno | CO2 per combustibile, regione |
+| `terna-bilancio-elettrico` | 2022-2023 | 209 paesi | Confronti EU (fonte: solo questi anni pubblicati) |
 | `gme-pun-storico` | 2020-2026 | 78 | PUN/PSV mensili |
 
 ## Esempi di domande
@@ -54,17 +54,18 @@ df = con.sql("SELECT * FROM read_parquet('out/data/clean/terna_copertura_domanda
 
 ```bash
 make run-all          # esegui tutti i dataset
-make reconcile        # cross-check tra fonti
+make check            # valida le config
 ```
 
 ## Dashboard
 
-6 pagine Streamlit:
-- **Panoramica** — KPI principali + trend rinnovabili
+7 pagine Streamlit:
+- **Panoramica** — KPI principali + trend rinnovabili (2005-2024)
 - **Mix Energetico** — stacked bar + dettaglio regionale
 - **Prezzi** — PUN/PSV mensili e annuale
 - **Emissioni** — CO2 per combustibile e regione
 - **Confronti EU** — intensità carbone Italia vs Europa
+- **Consumi Settore** — evoluzione 2000-2024 + dettaglio regionale
 - **Query SQL** — interrogazione libera
 
 ## Struttura

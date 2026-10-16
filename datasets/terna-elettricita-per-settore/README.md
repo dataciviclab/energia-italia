@@ -23,10 +23,14 @@ TERNA S.p.A. — Download Center
 
 ## MART
 
-`mart_consumi_settore_provincia`: consumi per anno, provincia e settore.
+`mart_consumi_settore_provincia`: consumi per anno, regione e settore.
 
-Nota: gli anni 2015-2020 hanno dati disaggregati (fino a 106k righe/anno) mentre 2021-2024 sono pre-aggregati (428 righe/anno). Il SUM nel mart normalizza — i totali sono comparabili tra tutti gli anni (es. Bergamo/Industria: 4.771 GWh nel 2015 vs 4.886 GWh nel 2024).
+Nota: gli anni early (2000-2020) arrivano raw disaggregati (fino a ~12k righe/anno) mentre 2021-2024 sono pre-aggregati (428 righe/anno). Il SUM nel mart normalizza — i totali sono comparabili tra tutti gli anni.
+
+## Copertura
+
+Serie **2000-2024** (estesa nel 2026-10-16; la fonte ha dati dal 2000). Prima era 2015-2024 con `pageSize=100` che troncava gli export a 100 righe (7 regioni, 25 province) — vedere `notes.md`.
 
 ## Setup
 
-L'ambiente necessita `TOOLKIT_ALLOW_SCRIPT_SOURCE=1` per lo script di fetch che rimuove il footer "Applied filters" dal XLSX di TERNA. Vedere `notes.md` per dettagli tecnici.
+Il fetch usa `http_file` con `pageSize=500000` (la riga footer "Applied filters" viene filtrata dal `clean.sql`). `TOOLKIT_ALLOW_SCRIPT_SOURCE=1` non e' piu' necessario. Vedere `notes.md` per dettagli tecnici.
