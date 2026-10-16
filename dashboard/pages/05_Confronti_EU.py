@@ -2,11 +2,11 @@
 
 import streamlit as st
 import plotly.graph_objects as go
-from sources import load_confronto_ue
+from sources import load_confronto_ue, CONFRONTO_YEARS
 
 st.title("Confronti EU")
 
-anno = st.selectbox("Anno", [2022, 2023], index=1)
+anno = st.selectbox("Anno", CONFRONTO_YEARS, index=len(CONFRONTO_YEARS) - 1)
 
 # ── Intensita carbone ────────────────────────────────────────────────
 st.subheader("Intensita carbone (g CO2/kWh)")
@@ -44,7 +44,7 @@ try:
     df2 = load_confronto_ue(anno)
     if not df2.empty:
         cols_show = [c for c in ["nazione", "produzione_neta_twh", "richiesta_twh",
-                                  "emissioni_co2_mt", "copertura_import_pct"]
+                                  "emissioni_co2_mt", "intensita_carbone"]
                      if c in df2.columns]
         if cols_show:
             st.dataframe(df2[cols_show], use_container_width=True, hide_index=True)

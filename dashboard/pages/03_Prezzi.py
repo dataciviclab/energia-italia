@@ -7,6 +7,9 @@ from sources import load_pun_mensile, load_pun_annuale
 
 st.title("Prezzi")
 
+df = None
+df_ann = None
+
 # ── PUN mensile ──────────────────────────────────────────────────────
 st.subheader("PUN mensile (2020-2026)")
 
@@ -80,14 +83,14 @@ except Exception as e:
 # ── Statistiche ──────────────────────────────────────────────────────
 st.subheader("Statistiche")
 
-if not df.empty:
+if df is not None and not df.empty:
     col1, col2 = st.columns(2)
     with col1:
         st.metric("PUN medio storico", f"{df['pun_eur_kwh'].mean():.4f} EUR/kWh")
     with col2:
         st.metric("PSV medio", f"{df['psv_eur_smc'].mean():.4f} EUR/Smc")
 
-if not df_ann.empty:
+if df_ann is not None and not df_ann.empty:
     col3, col4 = st.columns(2)
     with col3:
         st.metric("PUN minimo annuale", f"{df_ann['pun_min_kwh'].min():.4f} EUR/kWh")

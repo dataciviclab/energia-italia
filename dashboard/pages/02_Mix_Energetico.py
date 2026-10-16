@@ -2,11 +2,13 @@
 
 import streamlit as st
 import plotly.graph_objects as go
-from sources import load_copertura, load_copertura_regione
+from sources import load_copertura_storico, load_copertura_regione, COPERTURA_YEARS
 
 st.title("Mix Energetico")
 
-st.subheader("Evoluzione copertura domanda per fonte (2015-2024)")
+st.subheader(
+    f"Evoluzione copertura domanda per fonte ({COPERTURA_YEARS[0]}-{COPERTURA_YEARS[-1]})"
+)
 
 fonti_order = [
     "Termoelettrico tradizionale", "Idrico rinnovabile", "Fotovoltaico",
@@ -23,21 +25,21 @@ COLORS = {
 }
 
 all_data = []
-for y in range(2015, 2025):
-    try:
-        df_y = load_copertura(y)
-        if not df_y.empty:
-            tot = df_y["copertura_gwh"].sum()
-            for _, row in df_y.iterrows():
+try:
+    df_storico = load_copertura_storico()
+    if not df_storico.empty:
+        for y, grp in df_storico.groupby("anno"):
+            tot = grp["copertura_gwh"].sum()
+            for _, row in grp.iterrows():
                 if row["fonte"] in fonti_order:
                     all_data.append({
-                        "anno": y,
+                        "anno": int(y),
                         "fonte": row["fonte"],
                         "gwh": row["copertura_gwh"],
                         "pct": row["copertura_gwh"] / tot * 100 if tot > 0 else 0,
                     })
-    except Exception:
-        pass
+except Exception:
+    pass
 
 if all_data:
     fig = go.Figure()
@@ -55,7 +57,7 @@ if all_data:
         height=450,
         margin={"t": 20, "b": 40},
         yaxis_title="% della domanda",
-        xaxis=dict(dtick=1),
+        xaxis=dict(dtick=2),
         legend=dict(orientation="h", y=-0.2),
     )
     st.plotly_chart(fig, width="stretch")
@@ -63,7 +65,9 @@ if all_data:
 # ── Dettaglio regionale ──────────────────────────────────────────────
 st.subheader("Dettaglio regionale")
 
-anno_sel = st.selectbox("Anno", list(range(2015, 2025)), index=9, key="mix_anno")
+anno_sel = st.selectbox(
+    "Anno", COPERTURA_YEARS, index=len(COPERTURA_YEARS) - 1, key="mix_anno"
+)
 try:
     df_reg = load_copertura_regione(anno_sel)
     if not df_reg.empty:
@@ -88,4 +92,9 @@ try:
 except Exception as e:
     st.warning(f"Errore caricamento: {e}")
 
+st.caption(
+    "Nota: dal 2020 la tassonomia delle fonti cambia (9 invece di 8 — compaiono "
+    "`Accumulo stand alone` e `Pompaggi`, scompare `Idrico tradizionale`). "
+    "I confronti pre/post 2020 non sono perfettamente allineati."
+)
 st.caption("Fonti: Terna Download Center · CC BY 4.0")

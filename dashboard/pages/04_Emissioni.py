@@ -2,11 +2,11 @@
 
 import streamlit as st
 import plotly.graph_objects as go
-from sources import load_emissioni_combustibile, load_emissioni_regione
+from sources import load_emissioni_combustibile, load_emissioni_regione, ENERGIA_YEARS
 
 st.title("Emissioni CO2")
 
-anno = st.selectbox("Anno", list(range(2015, 2025)), index=9)
+anno = st.selectbox("Anno", ENERGIA_YEARS, index=len(ENERGIA_YEARS) - 1)
 
 # ── Emissioni per combustibile ───────────────────────────────────────
 st.subheader(f"Emissioni per combustibile — {anno}")

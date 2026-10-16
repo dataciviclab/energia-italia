@@ -25,6 +25,7 @@ pages = {
         st.Page("pages/03_Prezzi.py", title="Prezzi", icon="💰"),
         st.Page("pages/04_Emissioni.py", title="Emissioni", icon="🏭"),
         st.Page("pages/05_Confronti_EU.py", title="Confronti EU", icon="🇪🇺"),
+        st.Page("pages/07_Settore.py", title="Consumi Settore", icon="🏗️"),
     ],
     "Strumenti": [
         st.Page("pages/06_SQL.py", title="Query SQL", icon="🧪"),

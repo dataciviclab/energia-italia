@@ -5,16 +5,22 @@ Multi-dataset: Terna, GME, Eurostat, ISPRA.
 
 from __future__ import annotations
 
+import pandas as pd
 import streamlit as st
 
 from lab_connectors.duckdb.queries import (
     load_mart_table as _load_mart_table,
     query_clean as _query_clean,
 )
-from lab_connectors.formatters import fmt_num, fmt_pct, fmt_eur
 
 PREFIX = "energia_italia/"
-YEARS = list(range(2015, 2027))
+YEARS = list(range(2000, 2027))
+# Copertura domanda pubblicata dalla fonte dal 2005
+COPERTURA_YEARS = list(range(2005, 2025))
+# Fonte/settore/emissioni/capacita: serie storica dal 2000
+ENERGIA_YEARS = list(range(2000, 2025))
+# Bilancio internazionale: solo 2022-2023 (consolidamento annuale Terna)
+CONFRONTO_YEARS = [2022, 2023]
 
 
 def _q(slug: str, sql: str, year: int = 2026):
@@ -22,11 +28,39 @@ def _q(slug: str, sql: str, year: int = 2026):
     return _query_clean(slug, sql, [year], prefix=PREFIX)
 
 
+def _concat_years_mart(slug: str, table: str, years: list[int]) -> pd.DataFrame:
+    """Concatena un mart table su piu' anni, saltando gli anni non ancora pubblicati.
+
+    Su Streamlit Cloud i layer mart/clean possono non coprire ancora tutti gli
+anni configurati (i nuovi anni vengono pubblicati dalla pipeline post-merge).
+Senza questo filtro un singolo anno mancante farebbe fallire tutto il grafico.
+    """
+    frames: list[pd.DataFrame] = []
+    for y in years:
+        try:
+            df = _load_mart_table(slug, table, y, prefix=PREFIX)
+            if not df.empty:
+                frames.append(df)
+        except Exception:
+            continue
+    if not frames:
+        return pd.DataFrame()
+    return pd.concat(frames, ignore_index=True)
+
+
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_copertura(year: int = 2024):
     """Copertura domanda per fonte (nazionale)."""
     return _load_mart_table(
         "terna_copertura_domanda", "mart_copertura_fonte_nazionale", year, prefix=PREFIX
+    )
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_copertura_storico():
+    """Serie nazionale completa per anno, saltando gli anni non pubblicati."""
+    return _concat_years_mart(
+        "terna_copertura_domanda", "mart_copertura_fonte_nazionale", COPERTURA_YEARS
     )
 
 
@@ -91,6 +125,22 @@ def load_capacita(year: int = 2024):
     """Capacita rinnovabile per regione/fonte."""
     return _load_mart_table(
         "terna_capacita_rinnovabile", "mart_regioni_fonti_nette", year, prefix=PREFIX
+    )
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_settore(year: int = 2024):
+    """Consumi elettrici per settore e provincia."""
+    return _load_mart_table(
+        "terna_elettricita_per_settore", "mart_consumi_settore_provincia", year, prefix=PREFIX
+    )
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_settore_storico():
+    """Serie consumi per settore (nazionale), saltando gli anni non pubblicati."""
+    return _concat_years_mart(
+        "terna_elettricita_per_settore", "mart_consumi_settore_provincia", ENERGIA_YEARS
     )
 
 
