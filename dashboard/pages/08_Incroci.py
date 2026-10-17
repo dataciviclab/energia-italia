@@ -17,6 +17,13 @@ FONTI_COLORS = {
     "Idrico": "#3b82f6",
     "Geotermoelettrico": "#ef4444",
 }
+# Range CF nazionali plausibili (stessi limiti del flag cf_sospetto nel mart)
+FONTI_PLAUSIBLE = {
+    "Fotovoltaico": (3, 25),
+    "Eolico": (8, 45),
+    "Idrico": (3, 60),
+    "Geotermoelettrico": (40, 101),
+}
 
 df_cf = pd.DataFrame()
 
@@ -27,20 +34,40 @@ try:
     df_cf = load_capacity_factor()
     if not df_cf.empty:
         nat = (
-            df_cf.groupby(["anno", "fonte"], as_index=False)[["produzione_gwh", "potenza_mw"]]
-            .sum()
+            df_cf.groupby(["anno", "fonte"], as_index=False)
+            .agg(produzione_gwh=("produzione_gwh", "sum"), potenza_mw=("potenza_mw", "sum"))
         )
         nat["cf_pct"] = 100.0 * nat["produzione_gwh"] / (nat["potenza_mw"] * 8.76)
+
+        def _sospetto(row) -> bool:
+            # Sospetto sul valore NAZIONALE: una singola regione con potenza
+            # minuscola non deve sporcare la serie nazionale
+            rng = FONTI_PLAUSIBLE.get(row["fonte"])
+            if rng is None:
+                return False
+            return not (rng[0] <= row["cf_pct"] <= rng[1])
+
+        nat["sospetto"] = nat.apply(_sospetto, axis=1)
 
         fig = go.Figure()
         for fonte in sorted(nat["fonte"].unique()):
             pts = nat[nat["fonte"] == fonte].sort_values("anno")
+            ok = pts[~pts["sospetto"]]
             fig.add_trace(go.Scatter(
-                x=pts["anno"],
-                y=pts["cf_pct"],
+                x=ok["anno"],
+                y=ok["cf_pct"],
                 mode="lines+markers",
                 name=fonte,
                 line={"color": FONTI_COLORS.get(fonte, "#ccc"), "width": 2},
+            ))
+        sus = nat[nat["sospetto"]]
+        if not sus.empty:
+            fig.add_trace(go.Scatter(
+                x=sus["anno"],
+                y=sus["cf_pct"],
+                mode="markers",
+                name="sospetto (anomalia fonte)",
+                marker={"color": "#dc2626", "size": 11, "symbol": "x"},
             ))
         fig.update_layout(
             height=380,
@@ -52,7 +79,9 @@ try:
         st.plotly_chart(fig, width="stretch")
         st.caption(
             "Approssimazione: produzione annuale su potenza installata a fine anno. "
-            "L'idrico e' fortemente dipendente dall'annata idrologica."
+            "L'idrico dipende dall'annata idrologica. Le X rosse sono valori fuori dai "
+            "range fisici plausibili — anomalie della fonte Terna (es. capacità FV 2009, "
+            "produzione FV/Eolico 2017), non errori di calcolo."
         )
     else:
         st.info("Compose non ancora pubblicato — dati disponibili dopo il run della pipeline.")

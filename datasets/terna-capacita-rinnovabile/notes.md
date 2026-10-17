@@ -13,3 +13,10 @@ Run verificati: 2015, 2024 raw+clean+mart OK.
 La fonte ha dati dal **2000** (verificato: 1999 vuoto). Estesi gli anni da 2015 a 2000.
 I primi anni hanno un parco più piccolo (~830 righe vs ~1100 recenti): `min_rows`
 abbassato da 1000 a 800 come floor anti-troncatura.
+
+## Qualità dati — anomalie note nella fonte
+
+- **2009 Fotovoltaico Netta**: somma 88 MW su 107 righe (reale fine-2009 ~1.160 MW;
+  2008=432, 2010=3.470 coerenti). Valori rotti nel file Terna, non nel pipeline.
+  Valori fedeli alla fonte in clean; il compose `energia-incroci` li marca con
+  `cf_sospetto`.
