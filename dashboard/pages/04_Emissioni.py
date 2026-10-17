@@ -33,7 +33,7 @@ try:
         with col_right:
             st.dataframe(
                 df[["combustibile", "emissioni_mt", "quota_pct"]],
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
     else:
@@ -68,7 +68,7 @@ try:
             st.dataframe(
                 df_reg[["regione", "emissioni_mt", "intensita_carbone_g_kwh"]]
                 .sort_values("intensita_carbone_g_kwh", ascending=False),
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
 except Exception as e:

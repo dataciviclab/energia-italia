@@ -31,7 +31,7 @@ try:
         )
         st.plotly_chart(fig, width="stretch")
     elif not df.empty:
-        st.dataframe(df, use_container_width=True, hide_index=True)
+        st.dataframe(df, width="stretch", hide_index=True)
     else:
         st.info("Nessun dato disponibile per questo anno.")
 except Exception as e:
@@ -47,7 +47,7 @@ try:
                                   "emissioni_co2_mt", "intensita_carbone"]
                      if c in df2.columns]
         if cols_show:
-            st.dataframe(df2[cols_show], use_container_width=True, hide_index=True)
+            st.dataframe(df2[cols_show], width="stretch", hide_index=True)
 except Exception as e:
     st.warning(f"Errore: {e}")
 

@@ -165,7 +165,7 @@ try:
             df_a[["regione", "emissioni_mt", "copertura_locale_gwh",
                   "intensita_g_kwh", "quota_rinnovabili_pct"]]
             .reset_index(drop=True),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
         st.caption(

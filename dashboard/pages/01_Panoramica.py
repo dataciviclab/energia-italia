@@ -124,7 +124,7 @@ with col_left:
 with col_right:
     st.dataframe(
         df_cop[["fonte", "copertura_gwh", "quota_pct"]].sort_values("copertura_gwh", ascending=False),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
