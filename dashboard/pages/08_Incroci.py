@@ -60,15 +60,24 @@ try:
                 name=fonte,
                 line={"color": FONTI_COLORS.get(fonte, "#ccc"), "width": 2},
             ))
-        sus = nat[nat["sospetto"]]
-        if not sus.empty:
-            fig.add_trace(go.Scatter(
-                x=sus["anno"],
-                y=sus["cf_pct"],
-                mode="markers",
-                name="sospetto (anomalia fonte)",
-                marker={"color": "#dc2626", "size": 11, "symbol": "x"},
-            ))
+        # Sospetti marcati con la X del colore della rispettiva fonte:
+        # un rosso unico si confonderebbe col tracciato del geotermico
+        for fonte in sorted(nat["fonte"].unique()):
+            sus_f = nat[(nat["fonte"] == fonte) & nat["sospetto"]]
+            if not sus_f.empty:
+                fig.add_trace(go.Scatter(
+                    x=sus_f["anno"],
+                    y=sus_f["cf_pct"],
+                    mode="markers",
+                    name=f"{fonte} — sospetto",
+                    marker={
+                        "color": FONTI_COLORS.get(fonte, "#ccc"),
+                        "size": 12,
+                        "symbol": "x",
+                        "line": {"width": 2},
+                    },
+                    hovertemplate="%{x}: %{y:.1f}% — anomalia fonte<extra></extra>",
+                ))
         fig.update_layout(
             height=380,
             margin={"t": 20, "b": 40},
@@ -79,9 +88,9 @@ try:
         st.plotly_chart(fig, width="stretch")
         st.caption(
             "Approssimazione: produzione annuale su potenza installata a fine anno. "
-            "L'idrico dipende dall'annata idrologica. Le X rosse sono valori fuori dai "
-            "range fisici plausibili — anomalie della fonte Terna (es. capacità FV 2009, "
-            "produzione FV/Eolico 2017), non errori di calcolo."
+            "L'idrico dipende dall'annata idrologica. Le X (colore della fonte) sono "
+            "valori fuori dai range fisici plausibili — anomalie della fonte Terna "
+            "(es. capacità FV 2009, produzione FV/Eolico 2017), non errori di calcolo."
         )
     else:
         st.info("Compose non ancora pubblicato — dati disponibili dopo il run della pipeline.")
