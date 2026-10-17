@@ -73,6 +73,7 @@ make check            # valida le config
 ```
 energia-italia/
 ├── datasets/           # Config e SQL per ogni dataset
+├── compose/            # Incroci cross-dataset (mart-only, vedi energia-incroci)
 ├── dashboard/          # Streamlit dashboard
 ├── tests/              # Test
 ├── registry/           # Registry dataset
