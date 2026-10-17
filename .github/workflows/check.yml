@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "datasets/**"
+      - "compose/**"
       - "support/**"
       - "**/*.py"
       - "**/*.yml"
@@ -23,7 +24,7 @@ jobs:
       - uses: dataciviclab/.github/actions/detect-changed-datasets@main
         id: detect
         with:
-          paths: "datasets"
+          paths: "datasets compose"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -1,0 +1,50 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "energia_incroci"
+  source_id: "dataciviclab_composite"
+  tags: [energia, compose, capacity-factor, emissioni, rinnovabili]
+  category: energia
+  description: "Incroci Terna: capacity factor delle FER (produzione/potenza) e intensita di carbonio della copertura regionale"
+  years: [2026]
+  time_coverage:
+    start_year: 2000
+    end_year: 2024
+
+support:
+  - name: fonte
+    config: ../../datasets/terna-elettricita-per-fonte/dataset.yml
+    years: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  - name: capacita
+    config: ../../datasets/terna-capacita-rinnovabile/dataset.yml
+    years: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  - name: copertura
+    config: ../../datasets/terna-copertura-domanda/dataset.yml
+    years: [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  - name: emissioni
+    config: ../../datasets/terna-emissioni-co2/dataset.yml
+    years: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+
+mart:
+  tables:
+    - name: "mart_capacity_factor"
+      sql: "sql/mart_capacity_factor.sql"
+    - name: "mart_intensita_regionale"
+      sql: "sql/mart_intensita_regionale.sql"
+  required_tables:
+    - "mart_capacity_factor"
+    - "mart_intensita_regionale"
+  validate:
+    table_rules:
+      mart_capacity_factor:
+        required_columns: [anno, regione, fonte, produzione_gwh, potenza_mw, capacity_factor_pct]
+        primary_key: [anno, regione, fonte]
+        min_rows: 500
+      mart_intensita_regionale:
+        required_columns: [anno, regione, emissioni_mt, copertura_locale_gwh, intensita_g_kwh, quota_rinnovabili_pct]
+        primary_key: [anno, regione]
+        min_rows: 100
+
+validation:
+  fail_on_error: true
