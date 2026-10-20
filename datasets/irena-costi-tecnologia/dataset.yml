@@ -1,0 +1,72 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "irena_costi_tecnologia"
+  source_id: "irena"
+  tags: [energia, costi, capex, capacity-factor, rinnovabili, confronti-internazionali]
+  category: energia
+  years: [2024]
+  time_coverage:
+    start_year: 2010
+    end_year: 2024
+  notes: |
+    Capex, capacity factor e LCOE globale pesato per tecnologia (IRENA,
+    Renewable Power Generation Costs in 2024), confronto 2010 vs 2024.
+    Fonte: foglio "Table S.1" del datafile IRENA. Complementa `irena-lcoe`.
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "irena_costs_datafile"
+      type: "http_file"
+      args:
+        url: "https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2025/Jul/IRENA-Datafile-RenPwrGenCosts-in-2024.xlsx"
+        filename: "IRENA_RenPwrGenCosts_2024.xlsx"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: auto
+    mode: latest
+    header: false
+    skip: 6
+    # foglio "Table S.1" (indice posizionale)
+    sheet_name: 2
+  required_columns: [tecnologia, capex_2024_usd_kw, cf_2023_pct, lcoe_2024_usd_kwh]
+  validate:
+    min_rows: 7
+    not_null:
+      - tecnologia
+      - capex_2010_usd_kw
+      - capex_2024_usd_kw
+      - capex_var_pct
+      - cf_2010_pct
+      - cf_2023_pct
+      - cf_var_pct
+      - lcoe_2010_usd_kwh
+      - lcoe_2024_usd_kwh
+      - lcoe_var_pct
+    ranges:
+      capex_2024_usd_kw: {min: 1, max: 100000}
+      cf_2023_pct: {min: 1, max: 100}
+      lcoe_2024_usd_kwh: {min: 0.001, max: 5}
+    transition:
+      warn_removed_columns: false
+
+mart:
+  tables:
+    - name: "mart_costi_tecnologia"
+      sql: "sql/mart_costi_tecnologia.sql"
+  required_tables:
+    - "mart_costi_tecnologia"
+  validate:
+    table_rules:
+      mart_costi_tecnologia:
+        required_columns: [tecnologia, capex_2024_usd_kw, cf_2023_pct, lcoe_2024_usd_kwh]
+        primary_key: [tecnologia]
+        min_rows: 7
+
+validation:
+  fail_on_error: true
