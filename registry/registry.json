@@ -93,6 +93,146 @@
       ]
     },
     {
+      "slug": "irena_costi_tecnologia",
+      "name": "Irena Costi Tecnologia",
+      "description": "",
+      "source": "",
+      "source_id": "irena",
+      "period": {
+        "start": 2010,
+        "end": 2024
+      },
+      "tags": [
+        "energia",
+        "costi",
+        "capex",
+        "capacity-factor",
+        "rinnovabili",
+        "confronti-internazionali"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "tecnologia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "capex_2010_usd_kw",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capex_2024_usd_kw",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capex_var_pct",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "cf_2010_pct",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "cf_2023_pct",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "cf_var_pct",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "lcoe_2010_usd_kwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "lcoe_2024_usd_kwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "lcoe_var_pct",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/irena_costi_tecnologia/2024/irena_costi_tecnologia_2024_clean.parquet",
+        "multi_file": false
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "irena_costi_tecnologia__mart_costi_tecnologia"
+      ]
+    },
+    {
+      "slug": "irena_lcoe",
+      "name": "Irena Lcoe",
+      "description": "",
+      "source": "",
+      "source_id": "irena",
+      "period": {
+        "start": 2010,
+        "end": 2024
+      },
+      "tags": [
+        "energia",
+        "costi",
+        "lcoe",
+        "rinnovabili",
+        "confronti-internazionali"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "tecnologia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "lcoe_usd_kwh",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/irena_lcoe/2024/irena_lcoe_2024_clean.parquet",
+        "multi_file": false
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "irena_lcoe__mart_lcoe_tecnologia"
+      ]
+    },
+    {
       "slug": "terna_bilancio_elettrico",
       "name": "Terna Bilancio Elettrico",
       "description": "",
@@ -552,6 +692,26 @@
       }
     },
     {
+      "slug": "irena_costi_tecnologia__mart_costi_tecnologia",
+      "dataset": "irena_costi_tecnologia",
+      "table": "mart_costi_tecnologia",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/irena_costi_tecnologia/2024/mart_costi_tecnologia.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "irena_lcoe__mart_lcoe_tecnologia",
+      "dataset": "irena_lcoe",
+      "table": "mart_lcoe_tecnologia",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/irena_lcoe/2024/mart_lcoe_tecnologia.parquet",
+        "multi_file": false
+      }
+    },
+    {
       "slug": "terna_bilancio_elettrico__mart_bilancio_italia",
       "dataset": "terna_bilancio_elettrico",
       "table": "mart_bilancio_italia",
@@ -651,7 +811,7 @@
       "detail": "anno 2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261020T112957Z_a4e8ea8f",
+        "run_id": "20261020T153710Z_18213737",
         "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
@@ -663,9 +823,9 @@
         "output_bytes": {
           "mart": 19473
         },
-        "started_at": "2026-10-20T11:29:57.517264+00:00",
-        "finished_at": "2026-10-20T11:29:57.629083+00:00",
-        "duration_seconds": 0.112
+        "started_at": "2026-10-20T15:37:10.051385+00:00",
+        "finished_at": "2026-10-20T15:37:10.124786+00:00",
+        "duration_seconds": 0.073
       }
     },
     {
@@ -676,7 +836,7 @@
       "detail": "anno 2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261020T112402Z_1f77aa5e",
+        "run_id": "20261020T153159Z_93e3c1f2",
         "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
@@ -694,9 +854,69 @@
           "clean": 4428,
           "mart": 5494
         },
-        "started_at": "2026-10-20T11:24:02.501944+00:00",
-        "finished_at": "2026-10-20T11:24:06.517763+00:00",
-        "duration_seconds": 4.016
+        "started_at": "2026-10-20T15:31:59.585908+00:00",
+        "finished_at": "2026-10-20T15:32:02.383040+00:00",
+        "duration_seconds": 2.797
+      }
+    },
+    {
+      "id": "irena_costi_tecnologia",
+      "source_id": "irena",
+      "status": "ok",
+      "label": "irena_costi_tecnologia",
+      "detail": "anno 2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261020T153202Z_1e3c5df5",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 7,
+          "mart": 7
+        },
+        "output_bytes": {
+          "raw": 12730025,
+          "clean": 1942,
+          "mart": 2314
+        },
+        "started_at": "2026-10-20T15:32:02.979866+00:00",
+        "finished_at": "2026-10-20T15:32:05.495189+00:00",
+        "duration_seconds": 2.515
+      }
+    },
+    {
+      "id": "irena_lcoe",
+      "source_id": "irena",
+      "status": "ok",
+      "label": "irena_lcoe",
+      "detail": "anno 2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261020T153205Z_38e5fa16",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 104,
+          "mart": 104
+        },
+        "output_bytes": {
+          "raw": 12730025,
+          "clean": 1679,
+          "mart": 2494
+        },
+        "started_at": "2026-10-20T15:32:05.886307+00:00",
+        "finished_at": "2026-10-20T15:32:08.584375+00:00",
+        "duration_seconds": 2.698
       }
     },
     {
@@ -707,7 +927,7 @@
       "detail": "anni 2022-2023 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261020T112410Z_f7088e66",
+        "run_id": "20261020T153211Z_7e0faa2a",
         "year": 2023,
         "status": "SUCCESS",
         "quality_score": {
@@ -724,9 +944,9 @@
           "clean": 13359,
           "mart": 3815
         },
-        "started_at": "2026-10-20T11:24:10.119801+00:00",
-        "finished_at": "2026-10-20T11:24:11.293113+00:00",
-        "duration_seconds": 1.173
+        "started_at": "2026-10-20T15:32:11.781196+00:00",
+        "finished_at": "2026-10-20T15:32:12.553141+00:00",
+        "duration_seconds": 0.772
       }
     },
     {
@@ -737,7 +957,7 @@
       "detail": "anni 2000-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261020T112503Z_4b23b69b",
+        "run_id": "20261020T153300Z_bb64856d",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -754,9 +974,9 @@
           "clean": 7528,
           "mart": 2978
         },
-        "started_at": "2026-10-20T11:25:03.284751+00:00",
-        "finished_at": "2026-10-20T11:25:04.890998+00:00",
-        "duration_seconds": 1.606
+        "started_at": "2026-10-20T15:33:00.069602+00:00",
+        "finished_at": "2026-10-20T15:33:01.066545+00:00",
+        "duration_seconds": 0.997
       }
     },
     {
@@ -767,7 +987,7 @@
       "detail": "anni 2005-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261020T112539Z_e8ba1ad1",
+        "run_id": "20261020T153331Z_476fac60",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -784,9 +1004,9 @@
           "clean": 2632,
           "mart": 3165
         },
-        "started_at": "2026-10-20T11:25:39.627253+00:00",
-        "finished_at": "2026-10-20T11:25:40.531853+00:00",
-        "duration_seconds": 0.905
+        "started_at": "2026-10-20T15:33:31.042136+00:00",
+        "finished_at": "2026-10-20T15:33:31.873324+00:00",
+        "duration_seconds": 0.831
       }
     },
     {
@@ -797,7 +1017,7 @@
       "detail": "anni 2000-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261020T112628Z_6be10c48",
+        "run_id": "20261020T153414Z_0a5574ed",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -814,9 +1034,9 @@
           "clean": 7315,
           "mart": 2008
         },
-        "started_at": "2026-10-20T11:26:28.752978+00:00",
-        "finished_at": "2026-10-20T11:26:29.898244+00:00",
-        "duration_seconds": 1.145
+        "started_at": "2026-10-20T15:34:14.958725+00:00",
+        "finished_at": "2026-10-20T15:34:16.008149+00:00",
+        "duration_seconds": 1.049
       }
     },
     {
@@ -827,7 +1047,7 @@
       "detail": "anni 2000-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261020T112911Z_7f00957c",
+        "run_id": "20261020T153630Z_aee4a264",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -840,13 +1060,13 @@
           "mart": 80
         },
         "output_bytes": {
-          "raw": 15631,
+          "raw": 15629,
           "clean": 4416,
           "mart": 1658
         },
-        "started_at": "2026-10-20T11:29:11.154817+00:00",
-        "finished_at": "2026-10-20T11:29:12.852532+00:00",
-        "duration_seconds": 1.698
+        "started_at": "2026-10-20T15:36:30.654461+00:00",
+        "finished_at": "2026-10-20T15:36:32.116774+00:00",
+        "duration_seconds": 1.462
       }
     },
     {
@@ -857,7 +1077,7 @@
       "detail": "anni 2000-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261020T112956Z_93949147",
+        "run_id": "20261020T153709Z_3210f683",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -874,9 +1094,9 @@
           "clean": 2429,
           "mart": 2465
         },
-        "started_at": "2026-10-20T11:29:56.512571+00:00",
-        "finished_at": "2026-10-20T11:29:57.389807+00:00",
-        "duration_seconds": 0.877
+        "started_at": "2026-10-20T15:37:09.292208+00:00",
+        "finished_at": "2026-10-20T15:37:09.972641+00:00",
+        "duration_seconds": 0.68
       }
     }
   ],
@@ -981,6 +1201,12 @@
             "semantic_type": "month"
           },
           {
+            "slug": "irena_lcoe",
+            "name": "Irena Lcoe",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
             "slug": "terna_bilancio_elettrico",
             "name": "Terna Bilancio Elettrico",
             "column": "anno",
@@ -1018,7 +1244,7 @@
           }
         ],
         "types": {
-          "year": 7,
+          "year": 8,
           "month": 1
         }
       }
