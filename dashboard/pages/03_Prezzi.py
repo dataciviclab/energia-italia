@@ -74,7 +74,7 @@ try:
 
         st.dataframe(
             df_ann[["anno", "pun_medio_kwh", "psv_medio_smc", "pun_min_kwh", "pun_max_kwh"]],
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 except Exception as e:

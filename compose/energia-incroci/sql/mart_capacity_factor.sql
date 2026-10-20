@@ -32,7 +32,24 @@ SELECT
     p.fonte,
     ROUND(p.produzione_gwh, 1) AS produzione_gwh,
     ROUND(c.potenza_mw, 1) AS potenza_mw,
-    ROUND(100.0 * p.produzione_gwh / NULLIF(c.potenza_mw * 8.76, 0), 1) AS capacity_factor_pct
+    ROUND(100.0 * p.produzione_gwh / NULLIF(c.potenza_mw * 8.76, 0), 1) AS capacity_factor_pct,
+    -- Flag su valori fuori dai range fisici plausibili per fonte:
+    -- la fonte Terna ha anomalie note (es. FV 2009 capacita 88 MW,
+    -- FV/Eolico 2017 produzione parziale). Il valore resta il dato grezzo.
+    CASE
+        WHEN p.fonte = 'Fotovoltaico'
+             AND (100.0 * p.produzione_gwh / NULLIF(c.potenza_mw * 8.76, 0) < 3
+               OR 100.0 * p.produzione_gwh / NULLIF(c.potenza_mw * 8.76, 0) > 25) THEN true
+        WHEN p.fonte = 'Eolico'
+             AND (100.0 * p.produzione_gwh / NULLIF(c.potenza_mw * 8.76, 0) < 8
+               OR 100.0 * p.produzione_gwh / NULLIF(c.potenza_mw * 8.76, 0) > 45) THEN true
+        WHEN p.fonte = 'Idrico'
+             AND (100.0 * p.produzione_gwh / NULLIF(c.potenza_mw * 8.76, 0) < 3
+               OR 100.0 * p.produzione_gwh / NULLIF(c.potenza_mw * 8.76, 0) > 60) THEN true
+        WHEN p.fonte = 'Geotermoelettrico'
+             AND (100.0 * p.produzione_gwh / NULLIF(c.potenza_mw * 8.76, 0) < 40) THEN true
+        ELSE false
+    END AS cf_sospetto
 FROM prod p
 JOIN cap c USING (anno, regione, fonte)
 WHERE c.potenza_mw > 0

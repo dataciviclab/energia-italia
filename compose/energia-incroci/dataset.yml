@@ -38,7 +38,7 @@ mart:
   validate:
     table_rules:
       mart_capacity_factor:
-        required_columns: [anno, regione, fonte, produzione_gwh, potenza_mw, capacity_factor_pct]
+        required_columns: [anno, regione, fonte, produzione_gwh, potenza_mw, capacity_factor_pct, cf_sospetto]
         primary_key: [anno, regione, fonte]
         min_rows: 500
       mart_intensita_regionale:

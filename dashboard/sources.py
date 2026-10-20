@@ -7,9 +7,10 @@ from __future__ import annotations
 
 import pandas as pd
 import streamlit as st
-
 from lab_connectors.duckdb.queries import (
     load_mart_table as _load_mart_table,
+)
+from lab_connectors.duckdb.queries import (
     query_clean as _query_clean,
 )
 
@@ -141,6 +142,26 @@ def load_settore_storico():
     """Serie consumi per settore (nazionale), saltando gli anni non pubblicati."""
     return _concat_years_mart(
         "terna_elettricita_per_settore", "mart_consumi_settore_provincia", ENERGIA_YEARS
+    )
+
+
+# Anno sintetico del compose energia-incroci (output a livello dataset)
+INCI_YEAR = 2026
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_capacity_factor():
+    """Capacity factor delle FER per regione x fonte x anno (compose)."""
+    return _load_mart_table(
+        "energia_incroci", "mart_capacity_factor", INCI_YEAR, prefix=PREFIX
+    )
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_intensita_regionale():
+    """Intensita di carbonio della copertura regionale + quota rinnovabile (compose)."""
+    return _load_mart_table(
+        "energia_incroci", "mart_intensita_regionale", INCI_YEAR, prefix=PREFIX
     )
 
 
