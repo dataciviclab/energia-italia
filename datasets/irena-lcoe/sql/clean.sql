@@ -6,7 +6,14 @@
 
 WITH base AS (
     SELECT
-        trim(CAST("col1" AS VARCHAR)) AS tecnologia,
+        -- Nomi canonici condivisi con `irena-costi-tecnologia` (Table S.1),
+        -- cosi' i due dataset sono join-ready senza mapping a valle.
+        CASE trim(CAST("col1" AS VARCHAR))
+            WHEN 'Hydro' THEN 'Hydropower'
+            WHEN 'Solar photovoltaic' THEN 'Solar PV'
+            WHEN 'Solar thermal' THEN 'CSP'
+            ELSE trim(CAST("col1" AS VARCHAR))
+        END AS tecnologia,
         "col2"  AS y2010,
         "col3"  AS y2011,
         "col4"  AS y2012,

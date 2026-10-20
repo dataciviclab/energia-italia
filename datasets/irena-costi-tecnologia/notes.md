@@ -7,8 +7,16 @@ file di `irena-lcoe`, foglio **`Table S.1`** (indice 2).
 
 - Capex (2024 USD/kW), capacity factor (%) e LCOE (2024 USD/kWh) per tecnologia
 - Confronto **2010 vs 2024** (il CF riporta 2010 vs **2023**, come da fonte)
-- 7 tecnologie: Bioenergy, Geothermal, Hydropower, Solar PV, CSP, Onshore wind,
-  Offshore wind
+- 7 tecnologie: Bioenergy, CSP, Geothermal, Hydropower, Offshore wind,
+  Onshore wind, Solar PV
+
+## Metodologia IRENA (da tenere presente)
+
+- **`cf_2023_pct` non è il CF del 2024**: la fonte affianca il CF 2023 al LCOE
+  2024 (i dati di CF dell'ultimo anno disponibile sono 2023). Usarlo in
+  dashboard/analisi come se fosse il 2024 è sbagliato.
+- I nomi tecnologia sono **canonici e condivisi** con `irena-lcoe`
+  (Hydropower, Solar PV, CSP): i due mart sono joinabili 1:1 su `tecnologia`.
 
 ## Quirks del foglio
 

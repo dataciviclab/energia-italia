@@ -13,9 +13,24 @@ IRENA, *Renewable Power Generation Costs in 2024* (datafile, luglio 2025).
 Solo il foglio **`Fig 1.2 `** (attenzione: spazio finale nel nome):
 LCOE globale pesato per tecnologia, 2010-2024, in **2024 USD/kWh**.
 
-- 7 tecnologie: Bioenergy, Geothermal, Hydro, Offshore wind, Onshore wind,
-  Solar photovoltaic, Solar thermal
+- 7 tecnologie: Bioenergy, CSP, Geothermal, Hydropower, Offshore wind,
+  Onshore wind, Solar PV
 - 104 righe clean (7 × 15 anni, meno Geothermal 2011 assente nella fonte)
+
+## Nomi canonici (join-ready)
+
+Il foglio IRENA usa nomi diversi da `Table S.1` (usato da
+`irena-costi-tecnologia`). Il clean normalizza così i due dataset restano
+joinabili 1:1 su `tecnologia` senza mapping a valle:
+
+| Fonte (Fig 1.2) | Canonico |
+|---|---|
+| Hydro | Hydropower |
+| Solar photovoltaic | Solar PV |
+| Solar thermal | CSP |
+
+Verificato: i due mart hanno lo stesso set di 7 tecnologie e LCOE coerenti
+entro l'arrotondamento (<1%).
 
 ## Quirks del file (per chi tocca il clean)
 
