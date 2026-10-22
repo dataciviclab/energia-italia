@@ -1,0 +1,53 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "terna_hydro_power"
+  source_id: "terna_opendata"
+  years: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  time_coverage:
+    start_year: 2000
+    end_year: 2024
+  tags: [energia, elettricità, idroelettrico, fonti-rinnovabili]
+  category: energia
+  notes: |
+    Produzione idroelettrica per tipo di impianto (bacino, fluente, serbatoio),
+    per provincia. Fonte: Terna Download Center, dataset HydroPower.
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "terna_hydro_power_xlsx"
+      type: "http_file"
+      args:
+        url: "https://dati.terna.it/api/sitecore/dati/downloadcenter/records?f=xlsx&filterDataset=HydroPower&filterYear={year}&filterMonth=12&orderByColumn=Anno&orderByDir=desc&db=dati&pageSize=5000"
+        filename: "terna_hydro_power_{year}_12.xlsx"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: auto
+    mode: latest
+    header: true
+    sheet_name: "Export"
+  required_columns: [anno, tipo_produzione, regione, provincia, tipo_impianto, produzione_gwh]
+  validate:
+    not_null: [anno, tipo_produzione, tipo_impianto]
+    min_rows: 300
+
+mart:
+  tables:
+    - name: "mart_idro_tipo_impianto"
+      sql: "sql/mart_idro_tipo_impianto.sql"
+  required_tables:
+    - "mart_idro_tipo_impianto"
+  validate:
+    table_rules:
+      mart_idro_tipo_impianto:
+        required_columns: [anno, regione, tipo_produzione, tipo_impianto, produzione_gwh]
+        primary_key: [anno, regione, tipo_produzione, tipo_impianto]
+        min_rows: 50
+
+validation:
+  fail_on_error: true
