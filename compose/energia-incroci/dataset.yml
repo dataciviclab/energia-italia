@@ -25,6 +25,12 @@ support:
   - name: emissioni
     config: ../../datasets/terna-emissioni-co2/dataset.yml
     years: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  - name: hydro
+    config: ../../datasets/terna-hydro-power/dataset.yml
+    years: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  - name: storage
+    config: ../../datasets/terna-storage-accumuli/dataset.yml
+    years: [2024]
 
 mart:
   tables:
@@ -32,9 +38,15 @@ mart:
       sql: "sql/mart_capacity_factor.sql"
     - name: "mart_intensita_regionale"
       sql: "sql/mart_intensita_regionale.sql"
+    - name: "mart_flessibilita_regione"
+      sql: "sql/mart_flessibilita_regione.sql"
+    - name: "mart_flessibilita_nazionale"
+      sql: "sql/mart_flessibilita_nazionale.sql"
   required_tables:
     - "mart_capacity_factor"
     - "mart_intensita_regionale"
+    - "mart_flessibilita_regione"
+    - "mart_flessibilita_nazionale"
   validate:
     table_rules:
       mart_capacity_factor:
@@ -45,6 +57,14 @@ mart:
         required_columns: [anno, regione, emissioni_mt, copertura_locale_gwh, intensita_g_kwh, quota_rinnovabili_pct]
         primary_key: [anno, regione]
         min_rows: 100
+      mart_flessibilita_regione:
+        required_columns: [anno, regione, accumulo_mw, accumulo_mwh, vre_mw, quota_idro_serbatoio_pct]
+        primary_key: [anno, regione]
+        min_rows: 20
+      mart_flessibilita_nazionale:
+        required_columns: [anno, vre_gw, vre_twh, idro_serbatoio_twh, idro_fluente_twh]
+        primary_key: [anno]
+        min_rows: 20
 
 validation:
   fail_on_error: true

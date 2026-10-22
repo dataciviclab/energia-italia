@@ -4,17 +4,18 @@ schema_version: 1
 dataset:
   name: "terna_storage_accumuli"
   source_id: "terna_opendata"
-  years: [2024, 2025]
+  years: [2024]
   time_coverage:
     start_year: 2024
-    end_year: 2025
+    end_year: 2024
   tags: [energia, elettricità, accumuli, storage, flessibilità]
   category: energia
   notes: |
     Impianti di accumulo elettrico in Italia: potenza (MW), capacita' (MWh) e
-    numero installazioni per regione, fonte e configurazione. Snapshot annuale
-    (mese 12). Fonte: Terna Download Center, dataset Storage — pubblicato solo
-    dal 2024.
+    numero installazioni per regione, fonte e configurazione. Snapshot 2024 (mese 12).
+    Fonte: Terna Download Center, dataset Storage.
+    Il file 2025-12 NON e' uno stock cumulato (82,97 MW vs 10.008 MW del 2024):
+    sembra un incremento/parziale, quindi escluso dagli anni. Vedere notes.md.
 
 raw:
   output_policy: overwrite

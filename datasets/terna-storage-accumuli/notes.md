@@ -6,7 +6,15 @@ Terna Download Center, dataset `Storage` (XLSX, foglio `Export`).
 
 - Impianti di accumulo: potenza (MW), capacità (MWh), numero installazioni
 - Snapshot annuale (mese 12) — **pubblicato solo dal 2024**
-- `years: [2024, 2025]`
+- `years: [2024]`
+
+## ⚠️ Il file 2025 escluso (semantica diversa)
+
+Il file `2025-12` **non è uno stock cumulato**: 82,97 MW / 155,73 MWh /
+11.263 installazioni contro i 10.008 MW / 66.153 MWh / 740.084 del 2024.
+Sembra un **incremento/parziale** (copre 22 combinazioni regione×fonte vs 49),
+non lo stato a fine anno. Mescolarlo al 2024 darebbe una serie sbagliata:
+escluso dagli `years`, da rivalutare quando Terna consolida.
 
 ## Numeri 2024 (nazionale)
 
@@ -33,9 +41,7 @@ Da verificare 0/0.
 
 ## Attenzione: 2025 parziale
 
-Il 2025 (639 righe, 22 combinazioni regione×fonte, 3 configurazioni) è un
-**dato in consolidamento** — le soglie `min_rows` dei mart sono basse per
-coprirlo. Da rivedere quando Terna consolida l'anno.
+Il 2025 è **escluso** dagli `years` (vedi sopra): il file non è cumulato.
 
 ## Mart
 
