@@ -1,7 +1,7 @@
 -- mart_flessibilita_nazionale.sql
 -- Serie nazionale per anno: VRE installata e prodotta, idro per tipo impianto,
 -- accumuli (disponibili solo dal 2024). Il join e' FULL OUTER: idro/VRE coprono
--- 2000-2024, gli accumuli 2024-2025.
+-- 2000-2024, gli accumuli solo 2024.
 
 WITH idro AS (
     SELECT

@@ -10,6 +10,7 @@ dataset:
     end_year: 2024
   tags: [energia, elettricità, idroelettrico, fonti-rinnovabili]
   category: energia
+  description: "Produzione idroelettrica per provincia e tipo di impianto (bacino, fluente, serbatoio), 2000-2024"
   notes: |
     Produzione idroelettrica per tipo di impianto (bacino, fluente, serbatoio),
     per provincia. Fonte: Terna Download Center, dataset HydroPower.

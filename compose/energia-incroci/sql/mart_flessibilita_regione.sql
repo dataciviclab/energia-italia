@@ -1,5 +1,5 @@
 -- mart_flessibilita_regione.sql
--- Flessibilita' del sistema per regione, anni con dati di accumulo (2024-2025).
+-- Flessibilita' del sistema per regione, anno 2024 (unico con dati di accumulo).
 -- Unisce: accumuli (storage), VRE installata (capacita) e produzione VRE
 -- (per-fonte), idro per tipo impianto (hydro).
 -- NOTA: la VRE e' ricalcolata dai support, non letta da mart_capacity_factor
