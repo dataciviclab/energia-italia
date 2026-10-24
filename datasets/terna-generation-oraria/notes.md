@@ -24,6 +24,37 @@ Il clean legge tutto come **VARCHAR** e ricompone: `parte_intera || '.' || parte
 Gli **zeri iniziali sono significativi** (es. `0.040000`, non `0.40000`):
 leggere la parte decimale come numero la corromperebbe di 10×.
 
+## Unità confermata (GW)
+
+L'unità GW è confermata dal cross-check con il dataset annuale `per-fonte`:
+l'energia oraria ricostruita coincide con l'annuale entro l'1-1,5% su tutti gli anni.
+
+| Anno | Wind orario (TWh) | Wind annuale (TWh) |
+|---|---:|---:|
+| 2019 | 20,03 | 20,20 |
+| 2020 | 18,61 | 18,76 |
+| 2021 | 20,72 | 20,93 |
+| 2022 | 20,30 | 20,49 |
+| 2023 | 23,36 | 23,64 |
+| 2024 | 22,00 | 22,32 |
+
+Se l'unità fosse MW, il totale orario sarebbe 1000× minore: la coerenza
+esclude l'ipotesi.
+
+## Righe per anno (sanity)
+
+| Anno | Righe clean | Ore | Note |
+|---|---:|---:|---|
+| 2019 | 52.548 | 8.758 | −2 h (DST) |
+| 2020 | 52.704 | 8.784 | anno bisestile ✅ |
+| 2021-2023 | 52.560 | 8.760 | ✅ |
+| 2024 | 52.704 | 8.784 | bisestile ✅ |
+| 2025 | 210.204 | 35.034 (15′) | −6 quarti d'ora (DST) |
+
+Il mapping è a **5 campi fissi**: una riga con un numero diverso di campi
+finirebbe con `fonte` null e verrebbe scartata dal filtro. Il guardrail è
+`min_rows: 50000` sul clean (cattura crolli massivi) più questi conteggi attesi.
+
 ## Granularità variabile
 
 - **2019-2024: oraria** (~52.500 righe/anno = 8.760 h × 6 fonti)
