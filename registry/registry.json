@@ -676,6 +676,69 @@
       ]
     },
     {
+      "slug": "terna_generation_oraria",
+      "name": "Terna Generation Oraria",
+      "description": "Generazione elettrica oraria per fonte (Terna ActualGeneration), 2019-2025",
+      "source": "",
+      "source_id": "terna_opendata",
+      "period": {
+        "start": 2019,
+        "end": 2025
+      },
+      "tags": [
+        "energia",
+        "elettricità",
+        "generazione",
+        "oraria",
+        "mix-energetico"
+      ],
+      "category": "energia",
+      "columns": [
+        {
+          "name": "data_ora",
+          "type": "TIMESTAMP",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "anno",
+          "type": "BIGINT",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "fonte",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "generazione_gw",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "passo_ore",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/energia_italia/terna_generation_oraria/*/terna_generation_oraria_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "terna_generation_oraria__mart_mix_annuale",
+        "terna_generation_oraria__mart_mix_mensile",
+        "terna_generation_oraria__mart_profilo_orario"
+      ]
+    },
+    {
       "slug": "terna_hydro_power",
       "name": "Terna Hydro Power",
       "description": "Produzione idroelettrica per provincia e tipo di impianto (bacino, fluente, serbatoio), 2000-2024",
@@ -1023,6 +1086,36 @@
       }
     },
     {
+      "slug": "terna_generation_oraria__mart_mix_annuale",
+      "dataset": "terna_generation_oraria",
+      "table": "mart_mix_annuale",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_generation_oraria/2025/mart_mix_annuale.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_generation_oraria__mart_mix_mensile",
+      "dataset": "terna_generation_oraria",
+      "table": "mart_mix_mensile",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_generation_oraria/2025/mart_mix_mensile.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "terna_generation_oraria__mart_profilo_orario",
+      "dataset": "terna_generation_oraria",
+      "table": "mart_profilo_orario",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/energia_italia/terna_generation_oraria/2025/mart_profilo_orario.parquet",
+        "multi_file": false
+      }
+    },
+    {
       "slug": "terna_hydro_power__mart_idro_tipo_impianto",
       "dataset": "terna_hydro_power",
       "table": "mart_idro_tipo_impianto",
@@ -1062,7 +1155,7 @@
       "detail": "anno 2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T142048Z_43f8710a",
+        "run_id": "20261024T170908Z_1b747b8e",
         "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
@@ -1074,9 +1167,9 @@
         "output_bytes": {
           "mart": 25309
         },
-        "started_at": "2026-10-24T14:20:48.492914+00:00",
-        "finished_at": "2026-10-24T14:20:48.590460+00:00",
-        "duration_seconds": 0.098
+        "started_at": "2026-10-24T17:09:08.522142+00:00",
+        "finished_at": "2026-10-24T17:09:08.695779+00:00",
+        "duration_seconds": 0.174
       }
     },
     {
@@ -1087,7 +1180,7 @@
       "detail": "anno 2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T141528Z_defd0f0d",
+        "run_id": "20261024T170208Z_1b959c64",
         "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
@@ -1105,9 +1198,9 @@
           "clean": 4428,
           "mart": 5494
         },
-        "started_at": "2026-10-24T14:15:28.423443+00:00",
-        "finished_at": "2026-10-24T14:15:31.155722+00:00",
-        "duration_seconds": 2.732
+        "started_at": "2026-10-24T17:02:08.161111+00:00",
+        "finished_at": "2026-10-24T17:02:11.444566+00:00",
+        "duration_seconds": 3.283
       }
     },
     {
@@ -1118,7 +1211,7 @@
       "detail": "anno 2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T141531Z_8d15166c",
+        "run_id": "20261024T170211Z_7e642b1d",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1135,9 +1228,9 @@
           "clean": 1942,
           "mart": 2314
         },
-        "started_at": "2026-10-24T14:15:31.648621+00:00",
-        "finished_at": "2026-10-24T14:15:33.815433+00:00",
-        "duration_seconds": 2.167
+        "started_at": "2026-10-24T17:02:11.895579+00:00",
+        "finished_at": "2026-10-24T17:02:14.226065+00:00",
+        "duration_seconds": 2.33
       }
     },
     {
@@ -1148,7 +1241,7 @@
       "detail": "anno 2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T141534Z_b957fa79",
+        "run_id": "20261024T170214Z_a2b34013",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1165,9 +1258,9 @@
           "clean": 1679,
           "mart": 2494
         },
-        "started_at": "2026-10-24T14:15:34.180403+00:00",
-        "finished_at": "2026-10-24T14:15:36.430669+00:00",
-        "duration_seconds": 2.25
+        "started_at": "2026-10-24T17:02:14.547823+00:00",
+        "finished_at": "2026-10-24T17:02:16.718778+00:00",
+        "duration_seconds": 2.171
       }
     },
     {
@@ -1178,7 +1271,7 @@
       "detail": "anni 2022-2023 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T141539Z_e05614f1",
+        "run_id": "20261024T170220Z_852f2646",
         "year": 2023,
         "status": "SUCCESS",
         "quality_score": {
@@ -1195,9 +1288,9 @@
           "clean": 13359,
           "mart": 3815
         },
-        "started_at": "2026-10-24T14:15:39.160962+00:00",
-        "finished_at": "2026-10-24T14:15:40.175903+00:00",
-        "duration_seconds": 1.015
+        "started_at": "2026-10-24T17:02:20.050940+00:00",
+        "finished_at": "2026-10-24T17:02:21.056885+00:00",
+        "duration_seconds": 1.006
       }
     },
     {
@@ -1208,7 +1301,7 @@
       "detail": "anni 2000-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T141623Z_6fcc8f1c",
+        "run_id": "20261024T170314Z_665c3ad6",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1225,9 +1318,9 @@
           "clean": 7528,
           "mart": 2978
         },
-        "started_at": "2026-10-24T14:16:23.015311+00:00",
-        "finished_at": "2026-10-24T14:16:23.913695+00:00",
-        "duration_seconds": 0.898
+        "started_at": "2026-10-24T17:03:14.326379+00:00",
+        "finished_at": "2026-10-24T17:03:15.467618+00:00",
+        "duration_seconds": 1.141
       }
     },
     {
@@ -1238,7 +1331,7 @@
       "detail": "anni 2005-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T141650Z_f0ab6cd8",
+        "run_id": "20261024T170349Z_551e4509",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1253,11 +1346,11 @@
         "output_bytes": {
           "raw": 7095,
           "clean": 2632,
-          "mart": 3160
+          "mart": 3165
         },
-        "started_at": "2026-10-24T14:16:50.902151+00:00",
-        "finished_at": "2026-10-24T14:16:51.531923+00:00",
-        "duration_seconds": 0.63
+        "started_at": "2026-10-24T17:03:49.665638+00:00",
+        "finished_at": "2026-10-24T17:03:50.352628+00:00",
+        "duration_seconds": 0.687
       }
     },
     {
@@ -1268,7 +1361,7 @@
       "detail": "anni 2000-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T141732Z_2fc6fdc8",
+        "run_id": "20261024T170438Z_46558b2e",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1285,9 +1378,9 @@
           "clean": 7315,
           "mart": 2008
         },
-        "started_at": "2026-10-24T14:17:32.376974+00:00",
-        "finished_at": "2026-10-24T14:17:33.334531+00:00",
-        "duration_seconds": 0.958
+        "started_at": "2026-10-24T17:04:38.592763+00:00",
+        "finished_at": "2026-10-24T17:04:39.755189+00:00",
+        "duration_seconds": 1.162
       }
     },
     {
@@ -1298,7 +1391,7 @@
       "detail": "anni 2000-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T141926Z_0e89996b",
+        "run_id": "20261024T170717Z_8238a3ed",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1311,13 +1404,13 @@
           "mart": 80
         },
         "output_bytes": {
-          "raw": 15626,
+          "raw": 15629,
           "clean": 4416,
           "mart": 1658
         },
-        "started_at": "2026-10-24T14:19:26.789643+00:00",
-        "finished_at": "2026-10-24T14:19:27.684848+00:00",
-        "duration_seconds": 0.895
+        "started_at": "2026-10-24T17:07:17.801835+00:00",
+        "finished_at": "2026-10-24T17:07:19.121280+00:00",
+        "duration_seconds": 1.319
       }
     },
     {
@@ -1328,7 +1421,7 @@
       "detail": "anni 2000-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T142004Z_6a6a569a",
+        "run_id": "20261024T170753Z_aa5b1c75",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1345,9 +1438,39 @@
           "clean": 2429,
           "mart": 2465
         },
-        "started_at": "2026-10-24T14:20:04.690111+00:00",
-        "finished_at": "2026-10-24T14:20:05.486890+00:00",
-        "duration_seconds": 0.797
+        "started_at": "2026-10-24T17:07:53.454525+00:00",
+        "finished_at": "2026-10-24T17:07:54.059492+00:00",
+        "duration_seconds": 0.605
+      }
+    },
+    {
+      "id": "terna_generation_oraria",
+      "source_id": "terna_opendata",
+      "status": "ok",
+      "label": "terna_generation_oraria",
+      "detail": "anni 2019-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261024T170823Z_7f3dcb81",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 210204,
+          "mart": 222
+        },
+        "output_bytes": {
+          "raw": 8442400,
+          "clean": 614887,
+          "mart": 3482
+        },
+        "started_at": "2026-10-24T17:08:23.968579+00:00",
+        "finished_at": "2026-10-24T17:08:33.031558+00:00",
+        "duration_seconds": 9.063
       }
     },
     {
@@ -1358,7 +1481,7 @@
       "detail": "anni 2000-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T142045Z_1dd8fbb6",
+        "run_id": "20261024T170905Z_c5b3ced6",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1375,9 +1498,9 @@
           "clean": 6109,
           "mart": 2218
         },
-        "started_at": "2026-10-24T14:20:45.055093+00:00",
-        "finished_at": "2026-10-24T14:20:45.919201+00:00",
-        "duration_seconds": 0.864
+        "started_at": "2026-10-24T17:09:05.248911+00:00",
+        "finished_at": "2026-10-24T17:09:06.106016+00:00",
+        "duration_seconds": 0.857
       }
     },
     {
@@ -1388,7 +1511,7 @@
       "detail": "anno 2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261024T142046Z_30562926",
+        "run_id": "20261024T170906Z_265f0f81",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1405,9 +1528,9 @@
           "clean": 29849,
           "mart": 3194
         },
-        "started_at": "2026-10-24T14:20:46.549038+00:00",
-        "finished_at": "2026-10-24T14:20:48.412280+00:00",
-        "duration_seconds": 1.863
+        "started_at": "2026-10-24T17:09:06.756073+00:00",
+        "finished_at": "2026-10-24T17:09:08.368332+00:00",
+        "duration_seconds": 1.612
       }
     }
   ],
@@ -1578,6 +1701,12 @@
             "semantic_type": "year"
           },
           {
+            "slug": "terna_generation_oraria",
+            "name": "Terna Generation Oraria",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
             "slug": "terna_hydro_power",
             "name": "Terna Hydro Power",
             "column": "anno",
@@ -1597,7 +1726,7 @@
           }
         ],
         "types": {
-          "year": 10,
+          "year": 11,
           "month": 2
         }
       }
