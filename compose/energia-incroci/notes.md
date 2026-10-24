@@ -11,6 +11,20 @@ Compose mart-only (ADR-005): incroci cross-dataset sui clean Terna di questo rep
   della domanda escluso saldo import/export (copertura-domanda) + quota rinnovabile,
   per regione × anno (2005-2024). Coerenza: media ponderata 2023 = 250 g/kWh
   vs 257 del bilancio internazionale (confini leggermente diversi).
+- `mart_flessibilita_regione`: flessibilità per regione (2024): accumuli (storage),
+  VRE installata (capacita) e prodotta (per-fonte), idro per tipo impianto (hydro).
+  Indicatori: MWh accumulo per MW VRE, ore di accumulo, quota idro a serbatoio.
+- `mart_flessibilita_nazionale`: serie per anno (2000-2024): VRE installata/prodotta,
+  idro serbatoio/bacino/fluente, accumuli (solo 2024).
+
+## Flessibilità — note
+
+- La VRE è **ricalcolata dai support** (`capacita`, `per-fonte`), non letta da
+  `mart_capacity_factor`: evita la dipendenza dall'ordine delle tabelle dello
+  stesso run.
+- Gli accumuli coprono solo il **2024**: il file Terna 2025-12 non è cumulato
+  (82,97 MW vs 10.008 MW) → escluso dal dataset storage.
+- Idro "serbatoio" e "bacino" sono flessibilità naturale (invasi), il "fluente" no.
 
 ## Flag `cf_sospetto`
 

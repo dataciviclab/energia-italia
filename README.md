@@ -21,8 +21,12 @@ L'Italia sta attraversando una transizione energetica veloce: il fotovoltaico è
 | `terna-copertura-domanda` | 2005-2024 | ~160-180/anno | Copertura domanda per fonte |
 | `terna-elettricita-per-settore` | 2000-2024 | ~412-440/anno | Consumi per settore, provincia |
 | `terna-emissioni-co2` | 2000-2024 | ~84-100/anno | CO2 per combustibile, regione |
+| `terna-hydro-power` | 2000-2024 | ~340-450/anno | Produzione idro per tipo impianto |
+| `terna-storage-accumuli` | 2024 | ~1.700 | Accumuli: MW, MWh, installazioni |
 | `terna-bilancio-elettrico` | 2022-2023 | 209 paesi | Confronti EU (fonte: solo questi anni pubblicati) |
 | `gme-pun-storico` | 2020-2026 | 78 | PUN/PSV mensili |
+| `irena-lcoe` | 2010-2024 | 104 | LCOE per tecnologia (IRENA) |
+| `irena-costi-tecnologia` | 2010 vs 2024 | 7 | Capex, CF e LCOE per tecnologia |
 
 ## Esempi di domande
 

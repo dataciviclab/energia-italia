@@ -1,0 +1,82 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "terna_storage_accumuli"
+  source_id: "terna_opendata"
+  years: [2024]
+  time_coverage:
+    start_year: 2024
+    end_year: 2024
+  tags: [energia, elettricità, accumuli, storage, flessibilità]
+  category: energia
+  description: "Impianti di accumulo elettrico: potenza (MW), capacita' (MWh) e numero installazioni per regione, fonte e configurazione, 2024"
+  notes: |
+    Impianti di accumulo elettrico in Italia: potenza (MW), capacita' (MWh) e
+    numero installazioni per regione, fonte e configurazione. Snapshot 2024 (mese 12).
+    Fonte: Terna Download Center, dataset Storage.
+    Il file 2025-12 NON e' uno stock cumulato (82,97 MW vs 10.008 MW del 2024):
+    sembra un incremento/parziale, quindi escluso dagli anni. Vedere notes.md.
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "terna_storage_xlsx"
+      type: "http_file"
+      args:
+        url: "https://dati.terna.it/api/sitecore/dati/downloadcenter/records?f=xlsx&filterDataset=Storage&filterYear={year}&filterMonth=12&orderByColumn=Anno&orderByDir=desc&db=dati&pageSize=5000"
+        filename: "terna_storage_{year}_12.xlsx"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: auto
+    mode: latest
+    header: true
+    sheet_name: "Export"
+  required_columns: [anno, mese, regione, fonte, potenza_mw, capacita_mwh, n_installazioni]
+  validate:
+    not_null:
+      - anno
+      - mese
+      - zona_mercato
+      - regione
+      - provincia
+      - classe_potenza
+      - tipo_configurazione
+      - fonte
+      - livello_tensione
+      - potenza_mw
+      - capacita_mwh
+      - n_installazioni
+    ranges:
+      potenza_mw: {min: 0}
+      capacita_mwh: {min: 0}
+      n_installazioni: {min: 0}
+    min_rows: 500
+    transition:
+      warn_removed_columns: false
+
+mart:
+  tables:
+    - name: "mart_storage_regione_fonte"
+      sql: "sql/mart_storage_regione_fonte.sql"
+    - name: "mart_storage_configurazione"
+      sql: "sql/mart_storage_configurazione.sql"
+  required_tables:
+    - "mart_storage_regione_fonte"
+    - "mart_storage_configurazione"
+  validate:
+    table_rules:
+      mart_storage_regione_fonte:
+        required_columns: [anno, regione, fonte, potenza_mw, capacita_mwh, n_installazioni]
+        primary_key: [anno, regione, fonte]
+        min_rows: 15
+      mart_storage_configurazione:
+        required_columns: [anno, tipo_configurazione, potenza_mw, capacita_mwh, n_installazioni]
+        primary_key: [anno, tipo_configurazione]
+        min_rows: 3
+
+validation:
+  fail_on_error: true
