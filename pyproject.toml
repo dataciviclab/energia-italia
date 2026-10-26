@@ -40,3 +40,10 @@ Home = "https://github.com/dataciviclab/energia-italia"
 
 [tool.toolkit.extends]
 source_id = "terna_opendata"
+
+# Marker usati dai test del repo (registrati per evitare PytestUnknownMarkWarning).
+[tool.pytest.ini_options]
+markers = [
+    "smoke: contratto mart su parquet locali (skip se assenti)",
+    "dashboard: sintassi e compilazione delle pagine Streamlit",
+]

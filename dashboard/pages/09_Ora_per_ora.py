@@ -100,13 +100,12 @@ if df_prof is not None and not df_prof.empty:
 # ── Profilo orario della generazione per fonte ────────────────────────
 st.subheader(f"Generazione media per ora e fonte — {anno}")
 
-FONTI_ORDER = [
+FONTI_RETE = [
     "Thermal",
     "Hydro",
     "Geothermal",
     "Wind",
     "Photovoltaic",
-    "Self-consumption",
 ]
 FONTI_COLORS = {
     "Thermal": "#6b7280",
@@ -125,7 +124,9 @@ except Exception as e:
 
 if df_gen is not None and not df_gen.empty:
     fig2 = go.Figure()
-    for fonte in FONTI_ORDER:
+    # Solo le fonti immesse in rete: lo stack e' confrontabile con la domanda
+    # del grafico sopra.
+    for fonte in FONTI_RETE:
         d = df_gen[df_gen["fonte"] == fonte].sort_values("ora")
         if not d.empty:
             fig2.add_trace(
@@ -138,6 +139,23 @@ if df_gen is not None and not df_gen.empty:
                     line={"color": FONTI_COLORS.get(fonte), "width": 0.5},
                 )
             )
+    # Self-consumption: generazione NON immessa in rete. Perimetro diverso dallo
+    # stack -> traccia separata, non impilata (altrimenti il totale mescola i due).
+    d_sc = df_gen[df_gen["fonte"] == "Self-consumption"].sort_values("ora")
+    if not d_sc.empty:
+        fig2.add_trace(
+            go.Scatter(
+                x=d_sc["ora"],
+                y=d_sc["media_gw"],
+                mode="lines",
+                name="Self-consumption (fuori rete)",
+                line={
+                    "color": FONTI_COLORS["Self-consumption"],
+                    "width": 2.5,
+                    "dash": "dash",
+                },
+            )
+        )
     fig2.update_layout(
         height=380,
         margin={"t": 20, "b": 40},
@@ -149,8 +167,9 @@ if df_gen is not None and not df_gen.empty:
     st.plotly_chart(fig2, width="stretch")
     st.caption(
         "La campana del fotovoltaico domina il mezzogiorno; la sera il carico "
-        "torna su termoelettrico e idrico. `Self-consumption` e' generazione "
-        "non immessa in rete: non fa parte del mix di rete."
+        "torna su termoelettrico e idrico. Lo stack è il **mix di rete**; "
+        "`Self-consumption` è generazione non immessa in rete (perimetro "
+        "diverso) ed è mostrata come traccia separata, non impilata."
     )
 
 # ── Crescita delle punte ──────────────────────────────────────────────
