@@ -22,6 +22,7 @@ pages = {
     ],
     "Analisi": [
         st.Page("pages/02_Mix_Energetico.py", title="Mix Energetico", icon="⚡"),
+        st.Page("pages/09_Ora_per_ora.py", title="Ora per ora", icon="🕐"),
         st.Page("pages/03_Prezzi.py", title="Prezzi", icon="💰"),
         st.Page("pages/04_Emissioni.py", title="Emissioni", icon="🏭"),
         st.Page("pages/05_Confronti_EU.py", title="Confronti EU", icon="🇪🇺"),
