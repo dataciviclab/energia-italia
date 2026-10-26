@@ -165,6 +165,38 @@ def load_intensita_regionale():
     )
 
 
+# ── Domanda e generazione oraria (2019-2025) ──────────────────────────
+# Due dataset con granularita' oraria: la dimensione che le altre pagine
+# (annuale/mensile/regionale) non coprono.
+ORA_YEARS = list(range(2019, 2026))
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_carico_annuale():
+    """Domanda annua nazionale: total (2019-2025) e market (dal 2021)."""
+    return _concat_years_mart("terna_load_oraria", "mart_carico_annuale", ORA_YEARS)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_carico_profilo(year: int = 2025):
+    """Profilo medio della domanda per ora del giorno (un anno)."""
+    return _load_mart_table("terna_load_oraria", "mart_profilo_carico", year, prefix=PREFIX)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_ore_alta_domanda():
+    """Ore equivalenti sopra soglia di domanda, per anno (2019-2025)."""
+    return _concat_years_mart("terna_load_oraria", "mart_ore_alta_domanda", ORA_YEARS)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_generazione_profilo(year: int = 2025):
+    """Profilo medio della generazione per fonte e ora del giorno (un anno)."""
+    return _load_mart_table(
+        "terna_generation_oraria", "mart_profilo_orario", year, prefix=PREFIX
+    )
+
+
 @st.cache_data(ttl=3600, show_spinner=False)
 def query(sql: str, years: tuple[int, ...] = tuple(YEARS)):
     """Query SQL generica sul clean layer."""

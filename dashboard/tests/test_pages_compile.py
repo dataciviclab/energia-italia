@@ -1,4 +1,9 @@
-"""Smoke test — verifica che tutte le pagine si compilano senza errori."""
+"""Verifica che tutte le pagine della dashboard si compilino senza errori.
+
+Il nome file e' distinto da ``tests/test_smoke.py``: due moduli con lo stesso
+basename in directory diverse fanno fallire la collection quando si lanciano
+insieme (``pytest tests/ dashboard/tests``).
+"""
 
 from __future__ import annotations
 

@@ -35,3 +35,16 @@ jobs:
     with:
       configs: ${{ needs.detect.outputs.dirs }}
       years: "from-config"
+
+  # Test del repo: gira sempre (non dipende da detect), cosi' anche le PR
+  # dashboard-only hanno un segnale CI reale (le pagine si compilano, i contratti
+  # mart sono verificati quando i parquet locali esistono, altrimenti skippano).
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dataciviclab/.github/actions/python-setup@main
+        with:
+          install-extras: "dev"
+      - name: pytest
+        run: pytest tests/ dashboard/tests -q

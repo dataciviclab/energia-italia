@@ -65,13 +65,15 @@ make check            # valida le config
 
 ## Dashboard
 
-7 pagine Streamlit:
+9 pagine Streamlit:
 - **Panoramica** — KPI principali + trend rinnovabili (2005-2024)
 - **Mix Energetico** — stacked bar + dettaglio regionale
+- **Ora per ora** — domanda e generazione nella giornata tipo (2019-2025)
 - **Prezzi** — PUN/PSV mensili e annuale
 - **Emissioni** — CO2 per combustibile e regione
 - **Confronti EU** — intensità carbone Italia vs Europa
 - **Consumi Settore** — evoluzione 2000-2024 + dettaglio regionale
+- **Incroci** — capacity factor FER e intensità di carbonio regionale
 - **Query SQL** — interrogazione libera
 
 ## Struttura
