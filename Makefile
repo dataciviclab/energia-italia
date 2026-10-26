@@ -17,6 +17,17 @@ run-all:
 	find compose -name dataset.yml 2>/dev/null | sort >> batch.txt; \
 	$(TOOLKIT) run --batch batch.txt
 
+# --- Batch selettivo (PR post-merge: solo i dataset cambiati) ----------------
+# batch.txt e' generato da detect-changed-datasets nel workflow; qui si usa
+# cosi' com'e' (nessuna rigenerazione).
+.PHONY: run-batch
+run-batch:
+	@if [ -s batch.txt ]; then \
+		$(TOOLKIT) run --batch batch.txt; \
+	else \
+		echo "Nessun dataset da processare"; \
+	fi
+
 # --- Validazione config ------------------------------------------------------
 
 .PHONY: check

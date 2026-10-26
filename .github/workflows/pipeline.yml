@@ -1,3 +1,9 @@
+# Pipeline — energia-italia
+#
+# Post-merge + refresh. Usa pipeline-reusable.yml dell'org.
+# Su PR merged: solo i dataset toccati (detect + batch).
+# Su schedule/dispatch: tutti i dataset + compose.
+
 name: Pipeline
 
 on:
@@ -10,13 +16,21 @@ on:
     - cron: "0 6 1 * *"
   workflow_dispatch:
 
+concurrency:
+  group: energia-italia-pipeline-${{ github.event.pull_request.number || github.ref || 'schedule' }}
+  cancel-in-progress: false
+
 jobs:
   pipeline:
     if: github.event.pull_request.merged == true || github.event_name != 'pull_request'
     uses: dataciviclab/.github/.github/workflows/pipeline-reusable.yml@main
     with:
       repo-slug: "energia_italia"
-      run-command: "make all"
+      run-command: "make run-all"
+      run-batch-command: "make run-batch"
+      detect-paths: "datasets compose"
+      sync-pattern: "per-dataset"
+      verify-command: "make test"
       extra-env: "BLOCKED_SOURCE_PROXY=${{ vars.BLOCKED_SOURCE_PROXY }}"
     permissions:
       contents: write

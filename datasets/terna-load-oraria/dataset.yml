@@ -99,8 +99,8 @@ mart:
         primary_key: [anno, mese, tipo_carico]
         min_rows: 12
       mart_profilo_carico:
-        required_columns: [ora, tipo_carico, media_gw]
-        primary_key: [ora, tipo_carico]
+        required_columns: [anno, ora, tipo_carico, media_gw]
+        primary_key: [anno, ora, tipo_carico]
         min_rows: 24
       mart_carico_zona:
         required_columns: [anno, zona, tipo_carico, energia_twh, media_gw]
