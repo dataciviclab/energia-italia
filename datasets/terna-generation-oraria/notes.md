@@ -70,6 +70,10 @@ anno×fonte (1.0 h oppure 0.25 h), così i mart calcolano l'energia
 - `mart_mix_mensile`: energia mensile per fonte (stagionalità)
 - `mart_profilo_orario`: GW medi per ora del giorno e fonte
 
+Tutti i mart espongono la colonna `anno` (anche quelli per-anno, dove è
+costante): senza di essa, un mart per-anno letto via il glob del registry
+unisce gli anni senza modo di distinguerli.
+
 ## Cross-check 2024 vs `per-fonte` (annuale)
 
 | Fonte | Orario (TWh) | Annuale (TWh) | Note |

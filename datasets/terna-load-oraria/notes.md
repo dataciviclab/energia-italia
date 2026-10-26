@@ -97,6 +97,10 @@ Conferma sia l'unità sia l'integrazione a 15 minuti.
 I mart nazionali filtrano `zona = 'Italy'` (aggregato), così non sommano le
 zone due volte.
 
+Tutti i mart espongono la colonna `anno` (anche quelli per-anno, dove è
+costante): senza di essa, un mart per-anno letto via il glob del registry
+unisce gli anni senza modo di distinguerli.
+
 ## Dipendenza toolkit (bug `inject_column`)
 
 Il dataset usa `inject_column` a livello di `raw.sources[]` per etichettare la
