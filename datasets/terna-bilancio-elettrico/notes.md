@@ -10,7 +10,7 @@ a metà): mancavano tutti i paesi da L a Z e `mart_confronto_ue` usciva a 9/15 p
 - I dataset sorella con pageSize 500–5000 non avevano il problema — pattern già noto
   nel repo (vedi terna-capacita-rinnovabile: "pageSize aumentato da 1160 a 5000").
 - **2024/2025 non ancora pubblicati** dalla fonte (file vuoti con filterMonth=12,
-  verificato 2026-10-16): anni fermi a [2022, 2023].
+  verificato 2026-10-16 e ricontrollato 2026-11-11): anni fermi a [2022, 2023].
 
 ## Shape
 
